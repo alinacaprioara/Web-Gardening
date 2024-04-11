@@ -20,7 +20,7 @@ html{
 
 }
 
-body, html {
+body,html {
     height: 100%;
     margin: 0;
     display: flex;
@@ -29,13 +29,53 @@ body, html {
     opacity: 0.8;
     background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
     background-size: 40px 40px;
+    justify-content: center;
+    align-items: center; 
 }
 
 .container {
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
+    margin-top: 100px;
+    margin: auto;
+}
+
+.title{
+    background-color: white;
+    font-size: 85px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.description {
+    font-size: 24px;
+    color: #555; 
+    margin-top: 10px; 
+}
+
+.buttons{
+    margin-top: 20px;
+}
+
+.login_button, .register_button{
+    background-color: white;
+    color:#2d6a4f;
+    border-radius: 5px;
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 10px;
+}
+
+.login_button {
+    padding: 10px 50px; 
 }
 
 
