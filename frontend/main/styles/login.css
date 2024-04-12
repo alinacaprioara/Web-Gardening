@@ -1,77 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 *{
     font-family: "Poppins", sans-serif;
-    margin: 0;
-    padding: 0;
-    outline: none;
-    border: none;
     text-decoration: none;
     transition: .2s linear;
 }
+
+:root{
+    --border: .2rem solid black;
+    --box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+}
+
 
 html{
     font-size: 62.5%;
     scroll-padding-top: 2rem;
     scroll-behavior: smooth;
-
 }
 
 body,html {
     height: 100%;
     margin: 0;
     display: flex;
-    
     background-color: #74c69d;
     opacity: 0.8;
     background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
     background-size: 40px 40px;
     justify-content: center;
     align-items: center; 
-}
-
-.container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-top: 100px;
-    margin: auto;
-}
-
-.title{
-    background-color: white;
-    font-size: 85px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.description {
-    font-size: 24px;
-    color: #555; 
-    margin-top: 10px; 
-}
-
-.buttons{
-    margin-top: 20px;
-}
-
-.login_button, .register_button{
-    background-color: white;
-    color:#2d6a4f;
-    border-radius: 5px;
-    border: none;
-    font-size: 40px;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin: 10px;
-}
-
-.login_button {
-    padding: 10px 50px; 
 }
 
 
@@ -111,4 +66,66 @@ header .icons a{
 
 header .icons a:hover{
     color:green;
+}
+
+
+.form-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+
+.form-container form{
+    padding: 2rem;
+    margin-top: 10rem;
+    border-radius: .5rem;
+    border: var(--border);
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    width: 50rem;
+    text-align: center;
+}
+
+.form-container form h3{
+    font-size: 2.5rem;
+    color: black;
+    margin-bottom: 1rem;
+}
+
+.form-container form .box{
+    width: 100%;
+    font-size: 1.8rem;
+    color: black;
+    border: var(--border);
+    background-color: white;
+    margin: 1rem 0;
+    border-radius: .5rem;
+    padding: 1.2rem 0 1.2rem 0.7rem;
+}
+
+.form-container form .submit_button{
+    display: inline-block;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    color: black;
+    cursor: pointer;
+    padding: 1rem 3rem;
+}
+
+.form-container form .submit_button:hover{
+    background-color: #2d6a4f;
+}
+
+.form-container form p{
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.role-selection{
+    display: flex;
+    padding: 1.2rem;
+    font-size: 1.5rem;
 }
