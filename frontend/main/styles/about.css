@@ -25,7 +25,7 @@ body,html {
     display: flex;
     
     background-color: #74c69d;
-    opacity: 0.8;
+    /* opacity: 0.8; */
     background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
     background-size: 40px 40px;
     justify-content: center;

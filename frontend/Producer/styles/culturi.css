@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: .2s linear;
+/*
+    box-sizing: border-box;
+    list-style: none; */
+}
+
+html{
+    font-size: 62.5%;
+    scroll-padding-top: 2rem;
+    scroll-behavior: smooth;
+
+}
+
+body,html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    
+    background-color: #74c69d;
+    background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
+    background-size: 40px 40px;
+    justify-content: center;
+    align-items: center; 
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 100px;
+    margin: auto;
+}
+
+.title{
+    background-color: white;
+    font-size: 85px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.description {
+    font-size: 24px;
+    color: #555; 
+    margin-top: 10px; 
+}
+
+.buttons{
+    margin-top: 20px;
+}
+
+.login_button, .register_button{
+    background-color: white;
+    color:#2d6a4f;
+    border-radius: 5px;
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 10px;
+}
+
+.login_button {
+    padding: 10px 50px; 
+}
+
+
+header{
+    position: fixed;
+    top:0; left: 0; right: 0;
+    background: #fff;
+    padding: 2rem 9%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: 0 .5rem rgba(0,0,0,.1);
+}
+
+header .logo{
+    font-size: 3rem;
+    color: #333;
+    font-weight: bold;
+}
+
+header .navbar a{
+    font-size: 2rem;
+    padding: 0 1.5rem;
+    color: #666;
+}
+
+header .navbar a:hover{
+    color:#2d6a4f;
+    opacity: 0.8;
+}
+
+header .icons a{
+    font-size: 2.5rem;
+    color: #333;
+    margin-left: 1.5rem;
+}
+
+header .icons a:hover{
+    color:#2d6a4f;
+    opacity: 0.8;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    margin-top: 100px; 
+    height: 1.5rem; 
+    min-height: calc(100vh - 200px); 
+    margin-bottom: 100px;
+}
+
+.add-production{
+    margin-bottom: 20px;
+}
+
+.add-production form{
+    max-width: 50rem;
+    border-radius:.5rem;
+    background-color: white;
+    border:2px solid #2d6a4f;
+    padding: 2rem;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.add-production form h3{
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    color: black;
+    margin-bottom: 1rem;
+}
+
+.add-production form .box{
+    width: 100%;
+    width: calc(100% - 2.8rem); 
+    margin: 0.6rem 0;
+    margin: 1rem 0;
+    font-size:1.8rem;
+    color: black;
+    border-radius: .5rem;
+    background-color:white;
+    padding:0.8rem 1.2rem;
+    border:2px solid #2d6a4f;
+}
+
+
+.add-production form textarea{
+    height: 15rem;
+    resize: none;
+}
+
+.show-flowers{
+    margin-top: 20px;
+}
+
+.show-flowers .box-container{
+        max-width: 1200px; 
+        margin: auto 0; 
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    
+}
+
+.show-flowers .box-container .box{
+        width: calc(33.33% - 1.5rem); 
+        background-color: white;
+        border:#2d6a4f 2px solid;
+        box-shadow: var(--box-shadow);
+        border-radius: .5rem;
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+}
+
+.show-flowers .box-container .box .price{
+
+    background-color: #2d6a4f;
+    position: absolute;
+    top:1rem; left:1rem;
+    color:white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size:2rem;
+}
+
+.show-flowers .box-container .box .name{
+    margin: 1rem 0;
+    font-size: 2rem;
+    color: black;
+}
+
+.show-flowers .box-container .box .details{
+    line-height: 1.5;
+    color:#2d6a4f;
+    font-size: 1.5rem;
+    padding: 1rem 0;
+}
+
+
+.flower_image{
+    width: 200px; 
+    height: 300px;
+}
+
+
+.manage-btn, .delete-btn {
+    background-color: #2d6a4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.manage-btn:hover, .delete-btn:hover {
+    opacity: 0.8;
+}

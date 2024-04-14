@@ -138,8 +138,7 @@ header .icons a:hover{
     width: calc(33.33% - 1.5rem); 
     background-color: white;
     /* opacity: 0.8; */
-    border: var(--border);
-    box-shadow: var(--box-shadow);
+    border:#2d6a4f 2px solid;
     border-radius: .5rem;
     padding: 2rem;
     text-align: center;
@@ -176,6 +175,21 @@ header .icons a:hover{
 .products .box-container .box .cart-button{
     font-size: 1.5rem;
     color:#2d6a4f;
+}
+
+.products .box-container .box .price{
+    background-color: #2d6a4f;
+    position: absolute;
+    top:1rem; left:1rem;
+    color:white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size:2rem;
+}
+
+.products .box-container .box h3{
+    font-size: 2rem;
+    color: black;
 }
 
 .footer {
