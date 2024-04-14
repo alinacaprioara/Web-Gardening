@@ -24,8 +24,7 @@ body,html {
     margin: 0;
     display: flex;
     
-    background-color: #74c69d;
-    opacity: 0.8;
+    background-color: #74c69d; 
     background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
     background-size: 40px 40px;
     justify-content: center;
@@ -45,6 +44,7 @@ body,html {
 
 .title{
     background-color: white;
+    opacity: 0.8;
     font-size: 85px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -103,7 +103,8 @@ header .navbar a{
 }
 
 header .navbar a:hover{
-    color:green;
+    color:#74c69d;
+    opacity: 0.8;
 }
 
 header .icons a{
@@ -113,18 +114,83 @@ header .icons a{
 }
 
 header .icons a:hover{
-    color:green;
+    color:#74c69d;
+    opacity: 0.8;
 }
 
+.products {
+    margin-top: 100px; 
+    height: 1.5rem; 
+    min-height: calc(100vh - 200px); 
+    margin-bottom: 100px;
+}
 
-.products .box-container{
+.products .box-container {
+    max-width: 1200px; 
+    margin: 100px auto 0; 
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1.5rem;
 }
 
-.products .box-container .box{
-    flex: 1 1 30rem;
+.products .box {
+    width: calc(33.33% - 1.5rem); 
+    background-color: white;
+    /* opacity: 0.8; */
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
     box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
-  
+}
+
+.products_title {
+    text-align: center;
+    margin-top: 2rem;
+    color: black;
+    text-transform: uppercase;
+    font-size: 4rem;
+}
+
+.flower_image{
+    width: 200px; 
+    height: 300px;
+}
+.products .box-container .box .fa-eye{
+    top:2 rem;
+    font-size: 1.5rem;
+    text-transform: capitalize;
+    opacity: 0.8;
+    color:#2d6a4f
+}
+
+.products .box-container .box .fa-heart{
+    font-size: 1.5rem;
+    opacity: 0.8;
+    color:#2d6a4f
+}
+
+.products .box-container .box .cart-button{
+    font-size: 1.5rem;
+    color:#2d6a4f;
+}
+
+.footer {
+    height: 100px;
+   margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .products .box {
+        width: calc(50% - 1.5rem); 
+    }
+}
+
+@media (max-width: 576px) {
+    .products .box {
+        width: calc(100% - 1.5rem); 
+    }
 }
