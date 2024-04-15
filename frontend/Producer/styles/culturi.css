@@ -23,7 +23,6 @@ body,html {
     height: 100%;
     margin: 0;
     display: flex;
-    
     background-color: #74c69d;
     background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
     background-size: 40px 40px;
@@ -61,16 +60,6 @@ body,html {
     margin-top: 20px;
 }
 
-.login_button, .register_button{
-    background-color: white;
-    color:#2d6a4f;
-    border-radius: 5px;
-    border: none;
-    font-size: 40px;
-    cursor: pointer;
-    padding: 10px 20px;
-    margin: 10px;
-}
 
 .login_button {
     padding: 10px 50px; 
@@ -127,48 +116,16 @@ header .icons a:hover{
     margin-bottom: 100px;
 }
 
-.add-production{
-    margin-bottom: 20px;
+
+.show-flowers{
+    margin-top: 20px;
 }
 
-.add-production form{
-    max-width: 50rem;
-    border-radius:.5rem;
-    background-color: white;
-    border:2px solid #2d6a4f;
-    padding: 2rem;
-    text-align: center;
-    margin: 0 auto;
-}
-
-.add-production form h3{
+#add_culture{
     font-size: 2.5rem;
     text-transform: uppercase;
     color: black;
     margin-bottom: 1rem;
-}
-
-.add-production form .box{
-    width: 100%;
-    width: calc(100% - 2.8rem); 
-    margin: 0.6rem 0;
-    margin: 1rem 0;
-    font-size:1.8rem;
-    color: black;
-    border-radius: .5rem;
-    background-color:white;
-    padding:0.8rem 1.2rem;
-    border:2px solid #2d6a4f;
-}
-
-
-.add-production form textarea{
-    height: 15rem;
-    resize: none;
-}
-
-.show-flowers{
-    margin-top: 20px;
 }
 
 .show-flowers .box-container{
@@ -237,4 +194,23 @@ header .icons a:hover{
 
 .manage-btn:hover, .delete-btn:hover {
     opacity: 0.8;
+}
+
+
+#add_culture {
+    display: inline-block;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    color: black;
+    cursor: pointer;
+    padding: 1rem 3rem;
+    text-decoration: none; 
+    border: 2px solid black; 
+    background-color: white;
+}
+
+
+#add_culture:hover{
+    background-color: #74c69d;
 }

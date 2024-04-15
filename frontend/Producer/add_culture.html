@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="./styles/add_culture.css">
+    <title>myPlant</title>
+</head>
+<body>
+
+    <header>
+
+        <a href="#" class="logo">myPlant</a>
+
+        <nav class="navbar">
+            <a href="./home.html">Home</a>
+            <a href="../main/about.html">About</a>
+            <a href="./culturi.html">myCultures</a>
+            <a href="../main/doc.html">Documentație</a>
+        </nav>
+
+        <div class="icons">
+            <a href="#" class="fas fa-heart"></a>
+            <a href="#" class="fas fa-shopping-cart"></a>
+            <a href="#" class="fas fa-user"></a>
+
+        </div>
+
+    </header>
+
+    <div class="form-container">
+        <form action="./culturi.html" method="get">
+            <h3>Add flower culture</h3>
+            <input type="text" class="box" placeholder="Enter flower name" >
+            <input type="text" class="box" placeholder="Enter flower price">
+            <input type="number" class="box" placeholder="Enter quantity">
+            <div class="senzor-selection">
+              <div>
+                  Select watched senzors:
+              </div>
+              <label>
+                  <input type="checkbox" name="senzor" value="humidity">
+                  Soil Humidity
+              </label>
+              <label>
+                  <input type="checkbox" name="senzor" value="temperature">
+                  Temperature
+              </label>
+              <label>
+                <input type="checkbox" name="senzor" value="images">
+                Image flux
+            </label>
+          </div>
+            <textarea name="details" class="box" placeholder="Enter flower details" required cols="30" rows="10"></textarea>
+            <div class="photo"><a>Add photo   </a><input type="file" accept="image/jpg, image/jpeg, image/png" class="btn"></div>
+
+            <input type="submit" name="submit" class="submit_button" value="Add culture">
+    
+        </form>
+    </div>
+
+
+
+
+</body>
+</html>
+
+

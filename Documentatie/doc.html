@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./doc.css">
-    <title>Web Gardening Documentație Academică</title>
+    <title>Web Gardening -  Documentație Academică</title>
 </head>
 <body>
     <article>
@@ -81,7 +81,7 @@
                     </p>
                     <p>
                         Pentru client, pagina principală are un meniu în care poate alege să vizualizeze florile oferite de producători și florile pentru care se află în așteptare.
-// de continuat aici!!!
+                        Clientul poate parcurge meniul de produse disponibile și de a le adăuga în coșul de cumpărături/produse preferate, sau poate seta alertă pentru un anumit produs dorit, dar momentan indisponibil.
             
                      </p>
                      <p>Un exemplu de flux pentru un client deja autentificat ar fi următorul: 
@@ -122,19 +122,67 @@
                         scurgere de date.</p>
                 
                 <h3>2.6 Documentația utilizatorului</h3>
-               
+
+                <p>
+                    Aplicația Web Gardening a fost proiectată pentru a fi cât mai user-friendly, astfel încât o documentație detaliată nu este necesară. Vom realiza un videoclip demonstrativ cu produsul final, unde vom prezenta feature-urile principale și modul de utilizare a acestora.
+                </p>
+
+
+                <h3>2.7 Ipoteze și dependențe</h3>
+
+                <p>Aplicația oferă o modalitate de păstrare a informațiilor despre culturile producătorilor, iar în același timp le oferă oportunitatea
+                    de a-și vinde produsele, iar pentru client reprezintă o modalitate de a cumpăra ușor plante și de a-și planifica următoarele cumpărături.
+                </p>
+
+
             </section>
             <section>
-                <h2>3. Cerinte de interfață externă</h2>
+                <h2>3. Cerințe de interfață externă</h2>
                 <h3>3.1 Interfețe cu utilizatorul</h3>
                   
-                <h3>3.2 Interfețe hardware</h3>
-                    
+                <h4>Pagina de main</h4>
+                <p>Aceasta este prima pagină cu care interacționează utilizatorul. Din această pagină, poate să creeze cont sau să se autentifice.</p>
+                <img src="pages/main.png" class="login" alt="login page">
 
+                <h4>Paginile login/register</h4>
+                <p>Pagini pentru creare/logare în contul existent. În momentul creării unui cont, utilizatorul își alege rolul: client/producător.</p>
+                <img src="pages/login.png" class="login" alt="login page">
+                <img src="pages/register.png" class="login" alt="login page">
+
+
+                <h4>Pagina de about</h4>
+                <p>Pagină creată pentru a oferi o scurtă descriere și backstory al aplicației.</p>
+                <img src="pages/about.png" class="login" alt="login page">
+
+                <h4>Pagina de products</h4>
+                <p>Pagină specifică utilizatorului de tip client în care poate vedea o varietate de produse oferite de către producători.</p>
+                <img src="pages/products.png" class="login" alt="login page">
+
+                <h4>Pagina de flower cultures</h4>
+                <p>Pagină specifică utilizatorului de tip producător în care își poate vizualiza culturile existente. Are posibilitatea, în plus, de a le edita.</p>
+                <img src="pages/cultures.png" class="login" alt="login page">
+
+
+                <h4>Pagina de Add new flower culture</h4>
+                <p>Pagină specifică utilizatorului de tip producător în care poate adăuga o nouă cultură de flori, cu anumite specificații. Are posibilitatea.</p>
+                <img src="pages/add_flower_culture.png" class="login" alt="login page">
+
+                <h3>3.2 Interfețe hardware</h3>
+                <p>Pe partea partea utilizatorului, aplicația va rula pe orice browser desktop, cum ar fi Chrome, Firefox, Opera, care acceptă HTML, CSS și Javascript.
+                    Pe partea backend, invocarea unui serviciu/API Web va fi efectuată în manieră asincronă via suita de tehnologii Ajax. Aplicația noastră va utiliza PHP pentru implementare.
+    </p>
+                
                 <h3>3.3 Interfețe software</h3>
-                        
+                <p>
+                    <ul>
+                        <li>Fonturi și pictograme Google (licență gratuită) </li>
+                        <li>Foi de stil CSS </li>
+                        <li>Visual Studio Code</li>
+                        <li><a href="https://www.figma.com/file/5enax8c8jhU7uadaHf9Lkp/Untitled?type=design&node-id=0%3A1&mode=design&t=fvAxyVQJApKZBH1W-1">Figma</a></li>
+                    </ul>
+                </p>
                 <h3>3.4 Interfețe de comunicare</h3>
-                    
+                Comunicarea cu clientul va utiliza serviciile de mail existente, atât pentru crearea de conturi, cât și pentru primirea de notificări, iar pentru comunicarea client-server, va fi utilizat protocolul HTTPS.
             </section>
         </div>
     </article>
