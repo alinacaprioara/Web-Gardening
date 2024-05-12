@@ -1,0 +1,63 @@
+Ce mi-a placut:
+
+
+Ce ar mai fi trebuit sa fie (sau ce nu mi-a placut):
+Nu este chiar navigabil 100%
+Ar trebui sa aveti un export / import pe undeva
+Responsiveness lipseste cu desavarsire.
+-----------
+Concluzii: 8.5
+
+
+
+
+
+
+
+
+
+
+La ce ma uit la evaluarea acestei componente:
+
+=================================================================================================
+Ce pagini ma astept sa gasesc intr-o astfel de aplicatie (WeGa) cel putin:
+
+- pagina de autentificare / register / forgit pass
+- pagina in care sa se vada diferit cultivatorii-vanzatori vs cumparatori
+- pagina in care sa se poata inregistra pentru anumite culturi (sa vada toate culturile posibile vs culturile selectate)
+- pagina de vizualizare a statusului culturilor selectate
+- pagina in care sa se vada pentru o anumita planta care sunt stats (sensors)
+
+=================================================================================================
+
+Ma astept, de asemenea, sa gasesc un document scholarly care sa descrie fiecare dintre 
+paginile de mai sus si felul de interactiune (cum se trece de la una la cealalta). Ce
+motivatie a existat in alegerile facute (font, culoare, flow-ul aplicatiei, etc.).
+Scholarly trebuie sa aiba adnotari semantice (a se citi felul in care trebuie construit
+aici: https://w3c.github.io/scholarly-html/ - link dat in descrierea proiectelor)
+
+
+Documentele sa fie neaparat asezate in foldere, pe categorii:
+IMG / CSS / JS / etc. 
+
+Paginile trebuie sa fie valide HTML (vor fi validate cu https://validator.w3.org)
+
+CSSul trebuie sa fie valide cu http://csslint.net/
+
+Paginile trebuie sa fie responsive.... le voi verifica prin micsorarea ferestrei dar
+si prin selectarea telefon / PC (ma astept ca diversele elemente grafice sa nu 
+se suprapuna in rezolutii mai mici, sa nu apara scrolluri orizontale (decat daca au
+fost gandite din design - fapt specificat in scholarly), textul sa fie citibil si pe
+telefon si pagina sa nu fie doar scalata de catre acesta intr-o incercare a acestuia
+a afisa ceva cat de cat corect.
+
+Siteul trebuie sa fie navigabil (dau click pe index.html si de acolo pot naviga apasand
+diverse linkuri sau butoane catre celelalte pagini).
+
+Sa nu fie erori de legatura intre diverse documente (de exemplu nu ma apuc sa vad eu pe
+unde este CSSul care nu se incarca in HTMLul vostru).
+
+Orice proiect trebuie sa aiba minim 5 pagini care respecta aceste conditii pentru
+a lua nota 5. Daca ai 10, vei lua 10.
+
+
