@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="./styles/login.css">
-    <title>Login - myPlant</title>
+    <link rel="stylesheet" type="text/css" href="./main.css">
+    <title>myPlant</title>
 </head>
 <body>
 
@@ -20,6 +20,7 @@
             <a href="./doc.html">Documentație</a>
         </nav>
 
+
         <div class="icons">
             <a href="./login.html" class="fas fa-heart"></a>
             <a href="./login.html" class="fas fa-shopping-cart"></a>
@@ -30,18 +31,21 @@
     </header>
 
 
-    <div class="form-container">
-        <form id="registrationForm" action="#" method="post">
-            <h3>LOGIN</h3>
-            <input type="text" name="name" class="box" placeholder="Enter your username" required>
-            <input type="password" name="password" class="box" placeholder="Enter your password" required>
-
-            <input type="submit" name="submit" class="submit_button" value="Login">
-         
-        </form>    
+    <div class="container">
+        <div class="title">
+            Web Gardening
+            <div class="description">Color your garden!</div>
+        </div>
+        <div class="buttons">
+            <form style="display: inline" action="login.html" method="get">
+                <button class="login_button">Login</button>
+              </form>
+              <form style="display: inline" action="register.html" method="get">
+                <button class="register_button">Register</button>
+              </form>
+        </div>
     </div>
     
-
 
 </body>
 </html>
