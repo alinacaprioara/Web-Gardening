@@ -4,7 +4,7 @@ const secretKey = "tigrut"
 
 function authentificateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
-    console.log('Authorization Header:', authHeader); // Log the Authorization header
+    console.log('Authorization Header:', authHeader);
   
     const token = authHeader && authHeader.split(' ')[1];
   

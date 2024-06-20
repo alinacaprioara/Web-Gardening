@@ -59,16 +59,38 @@
     
 
     <script>
-        document.getElementById('registrationForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var selectedRole = document.querySelector('input[name="role"]:checked').value;
-            if (selectedRole === 'producer') {
-                window.location.href = '../Producer/home.html'; 
-            } else if (selectedRole === 'client') {
-                window.location.href = '../Client/home.html'; 
+        document.getElementById('registrationForm').addEventListener('submit', async function(event) {
+          event.preventDefault();
+        
+          const username = event.target.elements.name.value;
+          const email = event.target.elements.email.value;
+          const password = event.target.elements.password.value;
+          const role = document.querySelector('input[name="role"]:checked').value;
+        
+          try {
+            const response = await fetch('http://127.0.0.1:8085/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, email, password, role })
+            });
+        
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
             }
+        
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+        
+            if (role === 'producer') {
+              window.location.href = '../Producer/home.html'; 
+            } else if (role === 'client') {
+              window.location.href = '../Client/home.html'; 
+            }
+          } catch (error) {
+            console.error('An error occurred:', error);
+          }
         });
-    </script>
+        </script>
 
 </body>
 </html>

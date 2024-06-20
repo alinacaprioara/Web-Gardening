@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
 
 const { Pool } = require('pg');
 
@@ -20,7 +19,7 @@ async function authentificate(req, res) {
     const user = result.rows[0];
   
     if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ id: user.id }, secretKey);
+      const token = jwt.sign({ id: user.id }, "tigrut");
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ token }));
     } else {
