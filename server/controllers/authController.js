@@ -12,7 +12,7 @@ const pool = new Pool({
     port: 5432,
 })
 
-const secretKey = crypto.randomBytes(64).toString('hex');
+const secretKey = "tigrut";
 
 async function authentificate(req, res) {
     const { username, password } = req.body;

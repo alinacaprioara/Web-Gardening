@@ -30,7 +30,7 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Request-Headers', '*');
 
 
-  if (req.url === '/auth' && req.method === 'POST') {
+  if (parsedUrl.pathname === '/auth' && req.method === 'POST') {
     let body='';
     req.on('data', chunk => {
       body+=chunk.toString();
@@ -39,7 +39,7 @@ const server = http.createServer(async (req, res) => {
       req.body = JSON.parse(body);
       authentificate(req, res);
   });
-  } else if (req.url === '/user' && req.method === 'GET') {
+  } else if (parsedUrl.pathname === '/user' && req.method === 'GET') {
     user.Controller.getUser(req,res);
   } 
   else if (parsedUrl.pathname === '/flowers' && req.method === 'GET') {
@@ -55,7 +55,12 @@ const server = http.createServer(async (req, res) => {
     register(req, res);
   });
   }
-
+  else if (parsedUrl.pathname === '/protected' && req.method === 'GET') {
+    authentificateToken(req, res, () => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'Succesfully accessed the protected route!' }));
+    });
+  }
   else {
     res.writeHead(404);
     res.end('Not Found');
