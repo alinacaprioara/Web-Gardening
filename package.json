@@ -10,6 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "pg": "^8.12.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alinacaprioara/Web-Gardening.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alinacaprioara/Web-Gardening/issues"
+  },
+  "homepage": "https://github.com/alinacaprioara/Web-Gardening#readme"
 }
