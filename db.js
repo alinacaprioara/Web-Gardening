@@ -4,8 +4,15 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost', 
   database: 'myPlant', 
-  password: 'admin', 
+  password: 'cafeluta', 
   port: 5432, 
+});
+
+pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public'", (error, results) => {
+    if (error) {
+        throw error;
+    }
+    console.log(results.rows);
 });
 
 module.exports = {
