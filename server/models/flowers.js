@@ -2,7 +2,7 @@ const db = require('../../db');
 
 class Flower {
   static async getAll() {
-    const { rows } = db.query('SELECT * FROM flowers');
+    const { rows } = await db.query('SELECT * FROM flowers');
     return rows;
   }
 

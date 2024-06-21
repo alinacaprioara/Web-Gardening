@@ -56,5 +56,26 @@ async function authentificate(req, res) {
     }
 
   }
+
+
+  async function authentificateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
   
-  module.exports = { authentificate, register };
+    if (token == null) {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ message: 'No token provided' }));
+    }
+  
+    jwt.verify(token, secretKey, (err, user) => {
+      if (err) {
+        res.writeHead(403, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ message: 'Token is not valid' }));
+      }
+  
+      req.user = user;
+      next();
+    });
+  }
+  
+  module.exports = { authentificate, register, authentificateToken };

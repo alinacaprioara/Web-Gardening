@@ -12,14 +12,13 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Request-Headers', '*');
 
-  if (req.method === 'OPTIONS') {
-    res.writeHead(200);
-    res.end();
-    return;
-}
+    if (req.method === 'OPTIONS') {
+      res.writeHead(200);
+      res.end();
+      return;
+    }
 
-handleRoute(req, res);
-
+    handleRoute(req, res);
 });
 
 const PORT = process.env.PORT || 8085;

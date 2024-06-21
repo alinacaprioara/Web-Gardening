@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="./styles/add_culture.css">
     <title>myPlant</title>
+
+    <script>
+        async function fetchFlowers() {
+            const response = await fetch('http://127.0.0.1:8085/flowers');
+            const flowers = await response.json();
+            const flowerSelect = document.getElementById('flower-select');
+
+            flowers.forEach(flower => {
+                const option = document.createElement('option');
+                option.value = flower.id;
+                option.textContent = flower.name;
+                flowerSelect.appendChild(option);
+            });
+        }
+
+        window.onload = fetchFlowers;
+    </script>
 </head>
+
 <body>
 
     <header>
@@ -31,40 +52,78 @@
     </header>
 
     <div class="form-container">
-        <form action="./addFlowerCulture" method="post">
+        <form id="addCultureForm" method="post">
             <h3>Add flower culture</h3>
-            <input type="text" class="box" placeholder="Enter flower name" >
+            <select id="flower-select" name="flowerId" class="box">
+                <option value="" disabled selected>Select flower</option>
+            </select>
             <input type="text" class="box" placeholder="Enter flower price">
             <input type="number" class="box" placeholder="Enter quantity">
             <div class="senzor-selection">
-              <div>
-                  Select watched senzors:
-              </div>
-              <label>
-                  <input type="checkbox" name="senzor" value="humidity">
-                  Soil Humidity
-              </label>
-              <label>
-                  <input type="checkbox" name="senzor" value="temperature">
-                  Temperature
-              </label>
-              <label>
-                <input type="checkbox" name="senzor" value="images">
-                Image flux
-            </label>
-          </div>
-            <textarea name="details" class="box" placeholder="Enter flower details" required cols="30" rows="10"></textarea>
-            <div class="photo"><a>Add photo   </a><input type="file" accept="image/jpg, image/jpeg, image/png" class="btn"></div>
+                <div>
+                    Select watched senzors:
+                </div>
+                <label>
+                    <input type="checkbox" name="senzor" value="humidity">
+                    Soil Humidity
+                </label>
+                <label>
+                    <input type="checkbox" name="senzor" value="temperature">
+                    Temperature
+                </label>
+                <label>
+                    <input type="checkbox" name="senzor" value="images">
+                    Image flux
+                </label>
+            </div>
+            <textarea name="details" class="box" placeholder="Enter flower details" required cols="30"
+                rows="10"></textarea>
+            <div class="photo"><a>Add photo </a><input type="file" accept="image/jpg, image/jpeg, image/png"
+                    class="btn"></div>
 
             <input type="submit" name="submit" class="submit_button" value="Add culture">
-    
+
         </form>
+
+        <script>
+            document.getElementById('addCultureForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const formDataObj = {};
+
+                for (const [key, value] of formData.entries()) {
+                    formDataObj[key] = value;
+                }
+
+                fetch('http://127.0.0.1:8085/cultures', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formDataObj),
+
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(formData);
+                        window.location.href = 'culturi.html';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        </script>
+
     </div>
 
 
 
-
 </body>
+
 </html>
-
-

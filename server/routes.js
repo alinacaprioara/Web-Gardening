@@ -2,23 +2,10 @@ const url = require('url');
 const fs = require('fs');
 const cultureController = require('./controllers/cultureController');
 const authController = require('./controllers/authController');
-// const userController = require('./controllers/userController');
 const flowerController = require('./controllers/flowerController');
 
 const routes = {
     'GET': {
-        '/': (req, res) => {
-            fs.readFile('./views/add_culture.html', (err, data) => {
-                if (err) {
-                    res.writeHead(500, { 'Content-Type': 'text/plain' });
-                    res.end('Internal Server Error');
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
-            });
-        },
-        //'/user': userController.getUser,
         '/flowers': flowerController.getFlowers,
         '/protected': (req, res) => {
             authController.authentificateToken(req, res, () => {
@@ -48,7 +35,16 @@ const routes = {
                 authController.register(req, res);
             });
         },
-        '/addFlowerCulture': cultureController.addFlowerCulture,
+        '/cultures': (req, res) => {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            req.on('end', () => {
+                req.body = JSON.parse(body);
+                cultureController.addFlowerCulture(req, res);
+            });
+        },
     },
 };
 
@@ -59,8 +55,17 @@ function handleRoute(req, res) {
 
     const routeHandler = routes[method] && routes[method][pathname];
 
+    const protectedRoutes = ['/flowers', '/cultures']; 
+
+
     if (routeHandler) {
-        routeHandler(req, res);
+        if (protectedRoutes.includes(pathname)) {
+            authController.authentificateToken(req, res, () => {
+                routeHandler(req, res);
+            });
+        } else {
+            routeHandler(req, res);
+        }
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');
