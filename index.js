@@ -16,7 +16,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost', 
     database: 'myPlant', 
-    password: 'cafeluta', 
+    password: 'admin', 
     port: 5432, 
   });
 
@@ -28,6 +28,13 @@ const server = http.createServer(async (req, res) => {
   res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Request-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(200);
+    res.end();
+    return;
+}
+
 
 
   if (parsedUrl.pathname === '/auth' && req.method === 'POST') {

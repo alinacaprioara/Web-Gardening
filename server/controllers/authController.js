@@ -7,7 +7,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'myPlant',
-    password: 'cafeluta',
+    password: 'admin',
     port: 5432,
 })
 
@@ -21,7 +21,7 @@ async function authentificate(req, res) {
     if (user && await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ id: user.id }, "tigrut");
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ token }));
+      res.end(JSON.stringify({ token, role: user.role}));
     } else {
       res.writeHead(401, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ message: 'Invalid username or password' }));
@@ -29,11 +29,28 @@ async function authentificate(req, res) {
   }
   
   async function register(req, res) {
-    const { username, email, password, role } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query('INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)', [username, email, hashedPassword, role]);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'User registered successfully' }));
+
+    try
+    {
+      const { username, email, password, role } = req.body;
+
+      const emailCheckResult = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+      if (emailCheckResult.rows.length > 0) {
+        res.writeHead(409, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Email is already registered' }));
+        return;
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await pool.query('INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)', [username, email, hashedPassword, role]);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'User registered successfully' }));
+    }
+    catch(error) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'An error occurred during registration' }));
+    }
+
   }
   
   module.exports = { authentificate, register };
