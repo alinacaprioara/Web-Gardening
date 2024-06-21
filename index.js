@@ -1,24 +1,7 @@
-
 const http = require('http');
 const url = require('url');
-const { Pool } = require('pg');
-const bcrypt = require('bcrypt');
 const handleRoute = require('./server/routes');
-
-
-
-const { register } = require('./server/controllers/authController');
-const { authentificate } = require('./server/controllers/authController');
-
-
-
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost', 
-    database: 'myPlant', 
-    password: 'admin', 
-    port: 5432, 
-  });
+const db = require('./db');
 
 
 const server = http.createServer(async (req, res) => {
@@ -43,15 +26,15 @@ const PORT = process.env.PORT || 8085;
 
 
 try {
-  server.listen(PORT, () => {
+  server.listen(PORT, async () => {
     console.log(`Server listening on port ${PORT}...`);
-    pool.connect((err) => {
-      if (err) {
-        console.error('Failed to connect to the database:', err);
-      } else {
-        console.log('Connected to the database');
-      }
-    });
+    try {
+      const client = await db.connect();
+      client.release(); 
+      console.log('Connected to the database');
+    } catch (err) {
+      console.error('Failed to connect to the database:', err);
+    }
   });
 } catch (err) {
   console.error(err);

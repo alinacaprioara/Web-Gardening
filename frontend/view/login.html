@@ -67,7 +67,7 @@
         
           const data = await response.json();
           localStorage.setItem('token', data.token);
-          messageElement.textContent = 'Login successful!';
+        //  messageElement.textContent = 'Login successful!';
 
           if(data.role == 'client'){
             window.location.href = 'http://127.0.0.1:5500/frontend/Client/home.html';

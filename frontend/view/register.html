@@ -1,99 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="./register.css">
-    <title>Register - myPlant</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="./register.css">
+  <title>Register - myPlant</title>
 </head>
+
 <body>
 
-    <header>
+  <header>
 
-        <a href="./main.html" class="logo">myPlant</a>
+    <a href="./main.html" class="logo">myPlant</a>
 
-        <nav class="navbar">
-            <a href="./main.html">Home</a>
-            <a href="./about.html">About</a>
-            <a href="./doc.html">Documentație</a>
-        </nav>
+    <nav class="navbar">
+      <a href="./main.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./doc.html">Documentație</a>
+    </nav>
 
-        <div class="icons">
-            <a href="./login.html" class="fas fa-heart"></a>
-            <a href="./login.html" class="fas fa-shopping-cart"></a>
-            <a href="./login.html" class="fas fa-user"></a>
+    <div class="icons">
+      <a href="./login.html" class="fas fa-heart"></a>
+      <a href="./login.html" class="fas fa-shopping-cart"></a>
+      <a href="./login.html" class="fas fa-user"></a>
 
-        </div>
-
-    </header>
-
-
-    <div class="form-container">
-        <form id="registrationForm" action="#" method="post">
-            <h3>REGISTER</h3>
-            <input type="text" name="name" class="box" placeholder="Enter your username" required>
-            <input type="email" name="email" class="box" placeholder="Enter your email" required>
-            <input type="password" name="password" class="box" placeholder="Enter your password" required>
-            <input type="password" name="cpassword" class="box" placeholder="Confirm your password" required>
-
-            <div class="role-selection" required>
-                <div>
-                    Role:
-                </div>
-                <label>
-                    <input type="radio" name="role" value="producer" required>
-                    Producer
-                </label>
-                <label>
-                    <input type="radio" name="role" value="client" required>
-                    Client
-                </label>
-            </div>
-
-            <input type="submit" name="submit" class="submit_button" value="Create account">
-            <p>Already have an account? <a href="login.html">Login now</a></p>
-        </form>    
     </div>
-    
 
-    <script>
-        document.getElementById('registrationForm').addEventListener('submit', async function(event) {
-          event.preventDefault();
-        
-          const username = event.target.elements.name.value;
-          const email = event.target.elements.email.value;
-          const password = event.target.elements.password.value;
-          const role = document.querySelector('input[name="role"]:checked').value;
-        
-          try {
-            const response = await fetch('http://127.0.0.1:8085/register', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username, email, password, role })
-            });
-        
-            if (!response.ok) {
-              if (response.status === 409) {
+  </header>
+
+
+  <div class="form-container">
+    <form id="registrationForm" action="#" method="post">
+      <h3>REGISTER</h3>
+      <input type="text" name="name" class="box" placeholder="Enter your username" required>
+      <input type="email" name="email" class="box" placeholder="Enter your email" required>
+      <input type="password" name="password" class="box" placeholder="Enter your password" required>
+      <input type="password" name="cpassword" class="box" placeholder="Confirm your password" required>
+
+      <div class="role-selection" required>
+        <div>
+          Role:
+        </div>
+        <label>
+          <input type="radio" name="role" value="producer" required>
+          Producer
+        </label>
+        <label>
+          <input type="radio" name="role" value="client" required>
+          Client
+        </label>
+      </div>
+
+      <input type="submit" name="submit" class="submit_button" value="Create account">
+      <p>Already have an account? <a href="login.html">Login now</a></p>
+    </form>
+  </div>
+
+
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const username = event.target.elements.name.value;
+      const email = event.target.elements.email.value;
+      const password = event.target.elements.password.value;
+      const role = document.querySelector('input[name="role"]:checked').value;
+
+      try {
+        const response = await fetch('http://127.0.0.1:8085/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password, role })
+        });
+
+        if (!response.ok) {
+          response.json().then(data => {
+            if (response.status === 409) {
+              if (data.message === 'Email is already registered') {
                 alert('Email is already registered.');
+              } else if (data.message === 'Username is already taken') {
+                alert('Username is already taken.');
               }
+            } else {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
-        
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-        
-            if (role === 'producer') {
-              window.location.href = '../Producer/home.html'; 
-            } else if (role === 'client') {
-              window.location.href = '../Client/home.html'; 
-            }
-          } catch (error) {
-            console.error('An error occurred:', error);
-          }
-        });
-        </script>
+          });
+        }
+
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+
+        if (role === 'producer') {
+          window.location.href = '../Producer/home.html';
+        } else if (role === 'client') {
+          window.location.href = '../Client/home.html';
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    });
+  </script>
 
 </body>
+
 </html>

@@ -8,15 +8,12 @@ const pool = new Pool({
   port: 5432, 
 });
 
-// pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public'", (error, results) => {
-//     if (error) {
-//         throw error;
-//     }
-//     console.log(results.rows);
-// });
 
 module.exports = {
   query: (text, params, callback) => {
     return pool.query(text, params, callback);
   },
+  connect: () => {
+    return pool.connect();
+  }
 };
