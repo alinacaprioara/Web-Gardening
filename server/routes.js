@@ -8,12 +8,11 @@ const authentificateToken = require('./middleware/authentificateToken');
 const routes = {
     'GET': {
         '/flowers': flowerController.getFlowers,
-        '/protected': (req, res) => {
-            authentificateToken(req, res, () => {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Successfully accessed the protected route!' }));
-            });
-        },
+        // '/protected': (req, res) => {
+        //     authentificateToken(req, res, () => {
+        //         res.writeHead(200, { 'Content-Type': 'application/json' });
+        //         res.end(JSON.stringify({ message: 'Successfully accessed the protected route!' }));
+        //    }); },
     },
     'POST': {
         '/auth': (req, res) => {
@@ -56,7 +55,7 @@ function handleRoute(req, res) {
 
     const routeHandler = routes[method] && routes[method][pathname];
 
-    const protectedRoutes = ['/flowers', '/cultures']; 
+    const protectedRoutes = ['/cultures']; 
 
 
     if (routeHandler) {

@@ -96,10 +96,13 @@
                     formDataObj[key] = value;
                 }
 
+                const token = localStorage.getItem('token');
+
                 fetch('http://127.0.0.1:8085/cultures', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify(formDataObj),
 
