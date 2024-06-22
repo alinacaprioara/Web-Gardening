@@ -3,9 +3,9 @@ const db = require('../../db');
 class Culture {
     static async create({ userId, flowerId, quantity, price, senzors, details, photo }) {
         const result = await db.query(
-            `INSERT INTO cultures (user_id, flower_id, quantity, price, details, created_at, updated_at) 
-             VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`,
-            [userId, flowerId, quantity, price, details]
+            `INSERT INTO cultures (user_id, flower_id, quantity, price, details, photo_url, created_at, updated_at) 
+             VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING id`,
+            [userId, flowerId, quantity, price, details, photo]
         );
         const cultureId = result.rows[0].id;
 

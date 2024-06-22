@@ -174,3 +174,12 @@ select.box {
     left: 0;
     width: 100%;
 }
+
+.required {
+    color: red;
+}
+
+.form-label {
+    display: block;
+    text-align: left;
+}
