@@ -57,8 +57,8 @@
             <select id="flower-select" name="flowerId" class="box">
                 <option value="" disabled selected>Select flower</option>
             </select>
-            <input type="text" class="box" placeholder="Enter flower price">
-            <input type="number" class="box" placeholder="Enter quantity">
+            <input name="quantity" type="number" class="box" placeholder="Enter quantity">
+            <input name="price" type="text" class="box" placeholder="Enter flower price">
             <div class="senzor-selection">
                 <div>
                     Select watched senzors:
@@ -111,10 +111,10 @@
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
+                        console.log('response', response.json());
                         return response.json();
                     })
                     .then(data => {
-                        console.log(formData);
                         window.location.href = 'culturi.html';
                     })
                     .catch(error => {

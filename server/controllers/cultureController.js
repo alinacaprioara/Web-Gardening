@@ -5,18 +5,20 @@ const fs = require('fs');
 
 
 async function addFlowerCulture(req, res) {
-    const { flowerId, flower_price, quantity, senzors, details, photo } = req.body;
+    const {  flowerId, quantity, price, senzors, details, photo } = req.body;
+    console.log("recevied body addFlowerCulture:");
+    console.log(req.body);
     const userId = req.user.id;
 
     try {
         const cultureId = await Culture.create({
             userId,
-            flowerId,
-            flower_price,
-            quantity,
-            senzors: Array.isArray(senzors) ? senzors : [senzors],
-            details,
-            photo: photo ? photo : null 
+            flowerId, 
+            quantity, 
+            price, 
+            senzors: Array.isArray(senzors) ? senzors : [senzors], 
+            details, 
+            photo: photo ? photo : null  
         });
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
