@@ -111,11 +111,22 @@
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
                         }
-                        console.log('response', response.json());
                         return response.json();
                     })
                     .then(data => {
-                        window.location.href = 'culturi.html';
+
+                const messageContainer = document.getElementById('messageContainer');
+                const messageText = document.getElementById('messageText');
+                messageText.textContent = 'Culture was successfully added!';
+                messageContainer.style.display = 'block';
+
+                setTimeout(() => {
+                    messageContainer.style.display = 'none';
+                }, 3000); 
+
+                setTimeout(() => {
+                    window.location.href = 'culturi.html';
+                }, 1000);
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -125,6 +136,10 @@
 
     </div>
 
+    
+    <div id="messageContainer" style="display: none; /* Other styling here */">
+        <p id="messageText"></p>
+    </div>
 
 
 </body>

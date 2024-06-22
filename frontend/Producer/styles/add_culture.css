@@ -161,3 +161,16 @@ select.box {
     max-height: 200px;
     overflow-y: auto;
 }
+
+
+#messageContainer {
+    display: none;
+    background-color: #4CAF50; 
+    color: white; 
+    text-align: center; 
+    padding: 20px; 
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
