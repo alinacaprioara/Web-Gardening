@@ -17,15 +17,15 @@
         <nav class="navbar">
             <a href="#">Home</a>
             <a href="./about.html">About</a>
-            <a href="./products.html">Products</a>
-            <a href="#contact">Contact</a>
+            <a href="./culturi.html">myCultures</a>
+            <a href="../view/doc.html">Documentație</a>
         </nav>
 
         <div class="icons">
             <a href="#" class="fas fa-heart"></a>
             <a href="#" class="fas fa-shopping-cart"></a>
             <a href="./profile.html" class="fas fa-user"></a>
-
+            <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
         </div>
 
     </header>
@@ -118,6 +118,17 @@
     document.querySelector('.close-button').addEventListener('click', function() {
         document.getElementById('change-password-modal').style.display = 'none';
     });
+
+    document.getElementById('logout').addEventListener('click', function(event) {
+        event.preventDefault();
+        var logout = confirm('Are you sure you want to log out?');
+        if (logout) {
+            localStorage.removeItem('token');
+            console.log('Logged out');
+            window.location.href = '../view/main.html';
+        }
+    });
+    
 </script>
 
 </body>
