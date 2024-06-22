@@ -91,6 +91,20 @@
         </form>
 
         <script>
+            document.querySelector('.photo .btn').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    var formData = new FormData();
+                    formData.append('photo', this.files[0]);
+
+                    fetch('http://127.0.0.1:8085/addCulture', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                    .catch(error => console.error(error));
+                }
+            });
             document.getElementById('addCultureForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
