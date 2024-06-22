@@ -3,12 +3,13 @@ const fs = require('fs');
 const cultureController = require('./controllers/cultureController');
 const authController = require('./controllers/authController');
 const flowerController = require('./controllers/flowerController');
+const authentificateToken = require('./middleware/authentificateToken');
 
 const routes = {
     'GET': {
         '/flowers': flowerController.getFlowers,
         '/protected': (req, res) => {
-            authController.authentificateToken(req, res, () => {
+            authentificateToken(req, res, () => {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ message: 'Successfully accessed the protected route!' }));
             });
@@ -60,7 +61,7 @@ function handleRoute(req, res) {
 
     if (routeHandler) {
         if (protectedRoutes.includes(pathname)) {
-            authController.authentificateToken(req, res, () => {
+            authentificateToken(req, res, () => {
                 routeHandler(req, res);
             });
         } else {
