@@ -56,6 +56,31 @@ async function register(req, res) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ message: 'An error occurred during registration' }));
     }
+
+  }
+
+  async function changePassword(req, res) {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const result = await db.query('SELECT * FROM users WHERE id = $1', [req.userId]);
+        const user = result.rows[0];
+
+        if (user && await bcrypt.compare(oldPassword, user.password)) {
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            await db.query('UPDATE users SET password = $1 WHERE id = $2', [hashedPassword, req.userId]);
+
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Password changed successfully' }));
+        } else {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Invalid old password' }));
+        }
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'An error occurred during password change' }));
+    }
 }
 
-module.exports = { authentificate, register };
+
+  
+  module.exports = { authentificate, register , changePassword };

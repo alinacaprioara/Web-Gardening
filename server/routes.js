@@ -1,18 +1,60 @@
 const url = require('url');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 const cultureController = require('./controllers/cultureController');
 const authController = require('./controllers/authController');
 const flowerController = require('./controllers/flowerController');
+const userController = require('./controllers/userController');
 const authentificateToken = require('./middleware/authentificateToken');
+
 
 const routes = {
     'GET': {
-        '/flowers': flowerController.getFlowers,
-        // '/protected': (req, res) => {
-        //     authentificateToken(req, res, () => {
-        //         res.writeHead(200, { 'Content-Type': 'application/json' });
-        //         res.end(JSON.stringify({ message: 'Successfully accessed the protected route!' }));
-        //    }); },
+        '/flowers': (req, res) => {
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+        
+            // Verify the token and get the user ID
+        
+            flowerController.getFlowers(req, res);
+        },
+        '/user': (req, res) => {
+            const authHeader = req.headers.authorization;
+            const token = authHeader && authHeader.split(' ')[1];
+
+            if (!token) {
+                res.writeHead(401, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'No token provided' }));
+                return;
+            }
+
+            jwt.verify(token, "tigrut", (err, decoded) => {
+                //console.log(decoded)
+                if (err) {
+                    res.writeHead(403, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Failed to authenticate token' }));
+                    return;
+                }
+
+                //console.log(decoded.id);
+
+                userController.getUserById(decoded.id)
+                    .then(user => {
+                        res.writeHead(200, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify(user));
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: 'An error occurred while fetching the user\'s details' }));
+                    });
+            });
+},
+        
     },
     'POST': {
         '/auth': (req, res) => {
@@ -45,6 +87,16 @@ const routes = {
                 cultureController.addFlowerCulture(req, res);
             });
         },
+        '/change-password': (req, res) => {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            req.on('end', () => {
+                req.body = JSON.parse(body);
+                authController.changePassword(req, res);
+            });
+        }
     },
 };
 
@@ -55,7 +107,7 @@ function handleRoute(req, res) {
 
     const routeHandler = routes[method] && routes[method][pathname];
 
-    const protectedRoutes = ['/cultures']; 
+    const protectedRoutes = ['/flowers', '/cultures', '/user', '/change-password']; 
 
 
     if (routeHandler) {
