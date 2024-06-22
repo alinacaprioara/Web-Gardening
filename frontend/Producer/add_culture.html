@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="./styles/add_culture.css">
     <title>myPlant</title>
+
+    <script>
+        async function fetchFlowers() {
+            const response = await fetch('http://127.0.0.1:8085/flowers', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            });
+            const flowers = await response.json();
+            const flowerSelect = document.getElementById('flower-select');
+
+            flowers.forEach(flower => {
+                const option = document.createElement('option');
+                option.value = flower.id;
+                option.textContent = flower.name;
+                flowerSelect.appendChild(option);
+            });
+        }
+
+        window.onload = fetchFlowers;
+    </script>
 </head>
+
 <body>
 
     <header>
@@ -31,50 +57,40 @@
     </header>
 
     <div class="form-container">
-        <form action="./addFlowerCulture" method="post">
+        <form id="addCultureForm" method="post">
             <h3>Add flower culture</h3>
-            <input type="text" class="box" placeholder="Enter flower name" >
-            <input type="text" class="box" placeholder="Enter flower price">
-            <input type="number" class="box" placeholder="Enter quantity">
+            <select id="flower-select" name="flowerId" class="box">
+                <option value="" disabled selected>Select flower</option>
+            </select>
+            <input name="quantity" type="number" class="box" placeholder="Enter quantity">
+            <input name="price" type="text" class="box" placeholder="Enter flower price">
             <div class="senzor-selection">
-              <div>
-                  Select watched senzors:
-              </div>
-              <label>
-                  <input type="checkbox" name="senzor" value="humidity">
-                  Soil Humidity
-              </label>
-              <label>
-                  <input type="checkbox" name="senzor" value="temperature">
-                  Temperature
-              </label>
-              <label>
-                <input type="checkbox" name="senzor" value="images">
-                Image flux
-            </label>
-          </div>
-            <textarea name="details" class="box" placeholder="Enter flower details" required cols="30" rows="10"></textarea>
-            <div class="photo"><a>Add photo   </a><input type="file" accept="image/jpg, image/jpeg, image/png" class="btn"></div>
+                <div>
+                    Select watched senzors:
+                </div>
+                <label>
+                    <input type="checkbox" name="senzor" value="humidity">
+                    Soil Humidity
+                </label>
+                <label>
+                    <input type="checkbox" name="senzor" value="temperature">
+                    Temperature
+                </label>
+                <label>
+                    <input type="checkbox" name="senzor" value="images">
+                    Image flux
+                </label>
+            </div>
+            <textarea name="details" class="box" placeholder="Enter flower details" required cols="30"
+                rows="10"></textarea>
+            <div class="photo"><a>Add photo </a><input type="file" accept="image/jpg, image/jpeg, image/png"
+                    class="btn"></div>
 
             <input type="submit" name="submit" class="submit_button" value="Add culture">
-    
+
         </form>
 
         <script>
-
-            function getUserIdFromToken() {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    return null;
-                }
-
-                const payload = token.split('.')[1];
-                const decodedPayload = atob(payload);
-                const payloadObj = JSON.parse(decodedPayload);
-
-                return payloadObj.userId;
-            }            
-
             document.getElementById('addCultureForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
@@ -85,15 +101,13 @@
                     formDataObj[key] = value;
                 }
 
-                const userId = getUserIdFromToken();
-                   if (userId) {
-                    formDataObj.userId = userId;
-                    }
+                const token = localStorage.getItem('token');
 
                 fetch('http://127.0.0.1:8085/cultures', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify(formDataObj),
 
@@ -105,21 +119,44 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log(formData);
-                        window.location.href = 'culturi.html';
+
+                const messageContainer = document.getElementById('messageContainer');
+                const messageText = document.getElementById('messageText');
+                messageText.textContent = 'Culture was successfully added!';
+                messageContainer.style.display = 'block';
+
+                setTimeout(() => {
+                    messageContainer.style.display = 'none';
+                }, 3000); 
+
+                setTimeout(() => {
+                    window.location.href = 'culturi.html';
+                }, 1000);
                     })
                     .catch(error => {
                         console.error('Error:', error);
                     });
             });
+
+            document.getElementById('logout').addEventListener('click', function(event) {
+        event.preventDefault();
+        var logout = confirm('Are you sure you want to log out?');
+        if (logout) {
+            localStorage.removeItem('token');
+            console.log('Logged out');
+            window.location.href = '../view/main.html';
+        }
+    });
         </script>
 
     </div>
 
-
+    
+    <div id="messageContainer" style="display: none; /* Other styling here */">
+        <p id="messageText"></p>
+    </div>
 
 
 </body>
+
 </html>
-
-
