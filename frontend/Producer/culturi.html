@@ -1,98 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" type="text/css" href="./styles/culturi.css">
-    <title>myPlant</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="./styles/culturi.css">
+  <title>myPlant</title>
+
+
+
 </head>
+
 <body>
 
-    <header>
+  <header>
 
-        <a href="./home.html" class="logo">myPlant</a>
+    <a href="./home.html" class="logo">myPlant</a>
 
-        <nav class="navbar">
-            <a href="./home.html">Home</a>
-            <a href="./about.html">About</a>
-            <a href="#">myCultures</a>
-            <a href="../main/doc.html">Documentație</a>
-        </nav>
+    <nav class="navbar">
+      <a href="./home.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="#">myCultures</a>
+      <a href="../main/doc.html">Documentație</a>
+    </nav>
 
-        <div class="icons">
-            <a href="#" class="fas fa-heart"></a>
-            <a href="#" class="fas fa-shopping-cart"></a>
-            <a href="./profile.html" class="fas fa-user"></a>
-            <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
-        </div>
+    <div class="icons">
+      <a href="#" class="fas fa-heart"></a>
+      <a href="#" class="fas fa-shopping-cart"></a>
+      <a href="./profile.html" class="fas fa-user"></a>
+      <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
+    </div>
 
 
 
-    </header>
+  </header>
+
+  <section class="content">
 
     <section class="content">
+      <a id="add_culture" href="./add_culture.html">add flower culture</a>
+      <section class="show-flowers">
+        <div class="box-container" id="culture-container">
 
-    <a id="add_culture" href="./add_culture.html">add flower culture</a>
-
-    <section class="show-flowers">
-        <div class="box-container">
-          <div class="box">
-            <img class="flower_image" src="../assets/Images/crocus.jpg" alt="crocus">
-            <div class="name">Crocus</div>
-            <div class="price">15 RON</div>
-            <div class="details">Lorem ipsum</div>
-            <a href="#manage" class="manage-btn">Manage</a>
-            <a href="#delete" class="delete-btn">Remove</a>
-          </div>
-
-
-          <div class="box">
-            <img class="flower_image" src="../assets/Images/magnolia.jpg" alt="crocus">
-            <div class="name">Magnolia</div>
-            <div class="price">25 RON</div>
-            <div class="details">Lorem ipsum</div>
-            <a href="#manage" class="manage-btn">Manage</a>
-            <a href="#delete" class="delete-btn">Remove</a>
-          </div>
-
-          <div class="box">
-            <img class="flower_image" src="../assets/Images/lily.jpg" alt="lily">
-            <div class="name">Lily</div>
-            <div class="price">13 RON</div>
-            <div class="details">Lorem ipsum</div>
-            <a href="#manage" class="manage-btn">Manage</a>
-            <a href="#delete" class="delete-btn">Remove</a>
-          </div>
-
-          <div class="box">
-            <img class="flower_image" src="../assets/Images/daffodil.jpg" alt="daffodil">
-            <div class="name">daffodil</div>
-            <div class="price">20 RON</div>
-            <div class="details">Lorem ipsum</div>
-            <a href="#manage" class="manage-btn">Manage</a>
-            <a href="#delete" class="delete-btn">Remove</a>
-          </div>
         </div>
+      </section>
 
-        
-    </section>
-
-</section>
+  </section>
 
 
-<script>
-  document.getElementById('logout').addEventListener('click', function(event) {
-  event.preventDefault();
-  var logout = confirm('Are you sure you want to log out?');
-  if (logout) {
-      localStorage.removeItem('token');
-      console.log('Logged out');
-      window.location.href = '../view/main.html';
-  }
-});
-</script>
+  <script>
+    document.getElementById('logout').addEventListener('click', function (event) {
+      event.preventDefault();
+      var logout = confirm('Are you sure you want to log out?');
+      if (logout) {
+        localStorage.removeItem('token');
+        console.log('Logged out');
+        window.location.href = '../view/main.html';
+      }
+    });
+
+    async function fetchCultures() {
+      const response = await fetch('http://127.0.0.1:8085/cultures', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+      if (response.ok) {
+        const cultures = await response.json();
+        const container = document.getElementById('culture-container');
+        container.innerHTML = '';
+
+        cultures.forEach(culture => {
+          const box = document.createElement('div');
+          box.className = 'box';
+
+          const img = document.createElement('img');
+          img.className = 'flower_image';
+          img.src = `data:image/jpeg;base64,${culture.photo}`;
+          img.alt = culture.flower_name;
+
+          const name = document.createElement('div');
+          name.className = 'name';
+          name.textContent = culture.flower_name;
+
+          const price = document.createElement('div');
+          price.className = 'price';
+          price.textContent = `${culture.price} RON`;
+
+          const details = document.createElement('div');
+          details.className = 'details';
+          details.textContent = culture.details;
+
+          const manageBtn = document.createElement('a');
+          manageBtn.href = '#manage';
+          manageBtn.className = 'manage-btn';
+          manageBtn.textContent = 'Manage';
+
+          const deleteBtn = document.createElement('a');
+          deleteBtn.href = '#delete';
+          deleteBtn.className = 'delete-btn';
+          deleteBtn.textContent = 'Remove';
+
+          box.appendChild(img);
+          box.appendChild(name);
+          box.appendChild(price);
+          box.appendChild(details);
+          box.appendChild(manageBtn);
+          box.appendChild(deleteBtn);
+
+          container.appendChild(box);
+        });
+      } else {
+        console.error('Failed to fetch cultures');
+      }
+    }
+
+    window.onload = fetchCultures;
+
+  </script>
 
 </body>
+
 </html>
