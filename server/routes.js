@@ -22,6 +22,15 @@ const routes = {
         
             flowerController.getFlowers(req, res);
         },
+        '/cultures': (req, res) => {
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+            cultureController.getAllCultures(req, res);
+        },
         '/user': (req, res) => {
             const authHeader = req.headers.authorization;
             const token = authHeader && authHeader.split(' ')[1];

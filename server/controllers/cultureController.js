@@ -1,6 +1,7 @@
 const Culture = require('../models/culture');
 const path = require('path');
 const fs = require('fs');
+const { get } = require('http');
 
 
 async function addFlowerCulture(req, res) {
@@ -29,6 +30,21 @@ async function addFlowerCulture(req, res) {
     }
 }
 
+
+
+async function getAllCultures(req, res) {
+    try {
+        const cultures = await Culture.getAll();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(cultures));
+    } catch (error) {
+        console.error(error);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal Server Error');
+    }
+}
+
 module.exports = {
-    addFlowerCulture
+    addFlowerCulture,
+    getAllCultures
 };

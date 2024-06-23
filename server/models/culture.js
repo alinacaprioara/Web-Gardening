@@ -30,6 +30,12 @@ class Culture {
 
         return cultureId;
     }
+
+
+    static async getAll() {
+        const result = await db.query(`SELECT * FROM cultures`);
+        return result.rows;
+    }
 }
 
 module.exports = Culture;
