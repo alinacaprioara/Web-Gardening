@@ -20,7 +20,7 @@
         </nav>
         <div class="icons">
             <a href="#" class="fas fa-heart"></a>
-            <a href="#" class="fas fa-shopping-cart"></a>
+            <a href="./shoppingCart.html" class="fas fa-shopping-cart"></a>
             <a href="./profile.html" class="fas fa-user"></a>
             <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
         </div>
@@ -132,6 +132,19 @@
 
                     const addToCartBtn = document.createElement('button');
                     addToCartBtn.textContent = 'Add to cart';
+
+                    addToCartBtn.addEventListener('click', function() {
+                    let product = {
+                        name: productName.textContent,
+                        description: description.textContent,
+                        quantity: quantitySelect.value
+                   
+                    };
+
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    cart.push(product);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                });
 
                     modalContent.appendChild(closeBtn);
                     modalContent.appendChild(productName);
