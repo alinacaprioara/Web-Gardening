@@ -33,9 +33,9 @@ class Culture {
 
 
     static async getAll() {
-        const result = await db.query(`SELECT * FROM cultures`);
-        return result.rows;
-    }
+        const { rows } = await db.query('SELECT * FROM cultures');
+        return rows;
+      }
 }
 
 module.exports = Culture;
