@@ -33,9 +33,27 @@ class Culture {
 
 
     static async getAll() {
-        const { rows } = await db.query('SELECT * FROM cultures');
+        const query = `
+            SELECT 
+                cultures.id AS culture_id,
+                cultures.user_id,
+                cultures.flower_id,
+                flowers.name AS flower_name,
+                cultures.quantity,
+                cultures.price,
+                cultures.details,
+                cultures.photo,
+                cultures.created_at,
+                cultures.updated_at
+            FROM 
+                cultures
+            JOIN 
+                flowers ON cultures.flower_id = flowers.id
+        `;
+        const { rows } = await db.query(query);
         return rows;
-      }
+    }
+    
 }
 
 module.exports = Culture;
