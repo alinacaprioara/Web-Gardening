@@ -140,6 +140,20 @@ const routes = {
             });
         }
     },
+    'DELETE': {
+        '/cultures': (req, res) => {
+
+            const url = new URL(req.url, `http://${req.headers.host}`);
+            const cultureId = url.searchParams.get('cultureId');
+            if (!cultureId) {
+                res.statusCode = 400;
+                res.end('Bad Request: Missing cultureId');
+                return;
+            }
+        cultureController.deleteCulture(cultureId, res);
+    },
+    
+    },
 };
 
 function handleRoute(req, res) {
