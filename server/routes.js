@@ -140,6 +140,24 @@ const routes = {
             });
         }
     },
+    'DELETE': {
+        '/shoppingCart': (req, res) => {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            req.on('end', () => {
+                req.body = JSON.parse(body);
+                const token = req.headers['authorization'].split(' ')[1];
+                if (!token) {
+                    res.statusCode = 401;
+                    res.end('Unauthorized');
+                    return;
+                }
+                shoppingCartController.deleteProduct(req, res);
+            });
+        }
+    }
 };
 
 function handleRoute(req, res) {
