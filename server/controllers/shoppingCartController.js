@@ -8,7 +8,7 @@ async function addProduct(req, res) {
     const decoded = jwt.verify(token, 'tigrut'); 
     const userId = decoded.id;
 
-    const { flowerId, quantity, photo, price } = req.body; 
+    const { flowerId, quantity, photo, price, cultureId } = req.body; 
     if (flowerId === undefined || typeof flowerId !== 'number') {
         res.writeHead(400, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({status: 'error', message: 'Invalid flowerId'}));
@@ -20,6 +20,15 @@ async function addProduct(req, res) {
     if (cart.rowCount === 0) {
         await db.query('INSERT INTO shoppingCart (id, user_id, created_at, updated_at) VALUES ($1, $1, NOW(), NOW())', [userId]);
     }
+
+    const cultureBeforeUpdate = await db.query('SELECT quantity FROM cultures WHERE id = $1', [cultureId]);
+    console.log('Quantity before update:', cultureBeforeUpdate.rows[0].quantity);
+
+    await db.query('UPDATE cultures SET quantity = quantity - $1 WHERE id = $2', [quantity, cultureId]);
+
+    // Log the quantity of the product after it's decreased
+    const cultureAfterUpdate = await db.query('SELECT quantity FROM cultures WHERE id = $1', [cultureId]);
+    console.log('Quantity after update:', cultureAfterUpdate.rows[0].quantity);
 
     db.query('INSERT INTO shoppingCartItems (cart_id, flower_id, quantity, photo, price) VALUES ($1, $2, $3, $4, $5)', [userId, flowerId, quantity, photo, price])
     .then(() => {
