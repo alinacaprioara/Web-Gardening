@@ -1,4 +1,4 @@
-const db = require('../../db'); 
+const db = require('../db'); 
 
 class Culture {
     static async create({ userId, flowerId, quantity, price, details, photo, planting_date, expected_harvest_date}) {
