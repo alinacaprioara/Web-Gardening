@@ -117,6 +117,41 @@
         }
       }
 
+      async function getRecommendations(sensorType, flowerName, inputData) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
+      }
+
+      try {
+        const url = 'http://127.0.0.1:8086/recommendations'; 
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            sensorType,
+            flowerName,
+            inputData
+          })
+        });
+
+        if (response.ok) {
+          const recommendations = await response.json();
+          console.log('Recommendations:', recommendations);
+          alert('Recommendations received. Check console for details.');
+        } else {
+          throw new Error('Failed to fetch recommendations');
+        }
+      } catch (error) {
+        console.error('Error fetching recommendations:', error.message);
+        alert('Failed to fetch recommendations. Please try again later.');
+      }
+    }
+
 
       async function fetchCultures() {
 
@@ -210,9 +245,22 @@
           }
         });
 
+
+        document.getElementById('getRecommendations').addEventListener('click', function (event) {
+        event.preventDefault();
+        const sensorType = document.getElementById('sensorType').value;
+        const inputData = document.getElementById('inputData').value;
+        const selectedCulture = document.querySelector('.box.selected .name').textContent; // de revenit aici ca nu cred ca i ok
+        getRecommendations(sensorType, selectedCulture, inputData);
+      });
+
+
+
         document.getElementById('sensorType').addEventListener('change', function () {
           updateInputField();
         });
+
+
 
         const fileInput = document.getElementById('inputData');
         fileInput.addEventListener('change', function () {
@@ -220,6 +268,7 @@
           const fileInputLabel = document.getElementById('inputDataLabel');
           fileInputLabel.textContent = fileName;
         });
+
 
         document.getElementById('uploadImage').addEventListener('click', function () {
           const fileInput = document.getElementById('inputData');

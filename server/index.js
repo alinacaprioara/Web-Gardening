@@ -1,6 +1,6 @@
 const http = require('http');
 const url = require('url');
-const handleRoute = require('./server/routes');
+const handleRoute = require('./routes');
 const db = require('./db');
 
 
