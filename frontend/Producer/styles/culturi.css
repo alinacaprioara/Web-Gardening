@@ -27,7 +27,6 @@ body, html {
 }
 
 .container {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,22 +38,32 @@ body, html {
 
 .title {
     background-color: white;
-    font-size: 85px;
+    opacity: 0.8;
+    font-size: 8.5rem;
     font-weight: bold;
     margin-bottom: 20px;
     border-radius: 10px;
     padding: 20px;
+    position: relative; 
+    z-index: 2; 
 }
 
 .description {
-    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.6rem;
     color: #555;
-    margin-top: 10px;
+    text-align: left; 
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
+
 
 .buttons {
     margin-top: 20px;
 }
+
+
 
 .login_button {
     padding: 10px 50px;
@@ -136,12 +145,11 @@ header .icons a:hover {
     width: calc(33.33% - 1.5rem);
     background-color: white;
     border: #2d6a4f 2px solid;
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
     border-radius: .5rem;
     padding: 2rem;
     text-align: center;
     position: relative;
-    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -149,10 +157,10 @@ header .icons a:hover {
 
 .show-flowers .box-container .box .price {
     background-color: #2d6a4f;
+    color: white;
     position: absolute;
     top: 1rem;
     left: 1rem;
-    color: white;
     border-radius: 0.5rem;
     padding: 1rem;
     font-size: 2rem;
@@ -165,10 +173,10 @@ header .icons a:hover {
 }
 
 .show-flowers .box-container .box .details {
+    padding: 1rem 0;
+    font-size: 1.6rem;
     line-height: 1.5;
     color: #2d6a4f;
-    font-size: 1.5rem;
-    padding: 1rem 0;
 }
 
 .flower_image {
@@ -208,15 +216,20 @@ header .icons a:hover {
 }
 
 #add_culture:hover {
-    background-color: #74c69d;
+    background-color: #1e4934; 
 }
 
 .desc-title {
-    font-size: 1.5rem !important; 
+    font-size: 1.8rem; 
+    font-weight: bold; 
+    margin-bottom: 10px; 
 }
 
 .desc-details {
-    font-size: 0.7rem !important; 
+    font-size: 1.6rem;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 
@@ -233,7 +246,6 @@ header .icons a:hover {
 }
 
 
-/* Existing styles remain unchanged */
 
 .popup-overlay {
     position: fixed;
@@ -325,6 +337,8 @@ header .icons a:hover {
 .popup-content .file-upload:hover {
     background-color: #238c66;
 }
+
+
 
 @media (max-width: 1024px) {
     .show-flowers .box-container .box {
