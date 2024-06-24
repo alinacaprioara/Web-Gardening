@@ -11,104 +11,31 @@
 <body>
 
     <header>
-
         <a href=".home.html" class="logo">myPlant</a>
-
         <nav class="navbar">
             <a href="./home.html">Home</a>
             <a href="./about.html">About</a>
             <a href="./products.html">Products</a>
             <a href="../view/doc.html">Documentație</a>
         </nav>
-
         <div class="icons">
             <a href="#" class="fas fa-heart"></a>
-            <a href="#" class="fas fa-shopping-cart"></a>
+            <a href="./shoppingCart.html" class="fas fa-shopping-cart"></a>
             <a href="./profile.html" class="fas fa-user"></a>
             <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
         </div>
     </header>
-    
+
     <section class="products">
-        
-        <h1 class="products_title">Latest products </h1>
-        <div class="box-container">
+
+    <section class="products">
+        <h1 class="products_title">Latest products</h1>
+        <div class="box-container" id="product-container">
             
-            <div class="box">
-                <a href="./view_page.html" class="fas fa-eye">View</a> 
-                <div class="image">
-                    <img class="flower_image" src="../Images/lily.jpg" alt="lalea_roz">
-                    <div class="icons">
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="cart-button">Add to cart</a>
-                        <!-- <a href="#" class="fas fa-share"></a> -->
-                    </div>
-
-                    <div class="content">
-                        <h3>Lily</h3>
-                        <div class="price">15 RON</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="box">
-                <a href="./view_page.html" class="fas fa-eye">view</a> 
-                <div class="image">
-                    <img class="flower_image" src="../Images/crocus.jpg" alt="tulip">
-                    <div class="icons">
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="cart-button">Add to cart</a>
-                        <!-- <a href="#" class="fas fa-share"></a> -->
-                    </div>
-
-                    <div class="content">
-                        <h3>Crocus</h3>
-                        <div class="price">10 RON</div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="box">
-                <a href="./view_page.html" class="fas fa-eye">view</a> 
-                <div class="image">
-                    <img class="flower_image" src="../Images/daffodil.jpg" alt="">
-                    <div class="icons">
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="cart-button">Add to cart</a>
-                        <!-- <a href="#" class="fas fa-share"></a> -->
-                    </div>
-
-                    <div class="content">
-                        <h3>Daffodil</h3>
-                        <div class="price">12 Lei</div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="box">
-                <a href="./view_page.html" class="fas fa-eye">View</a> 
-                <div class="image">
-                    <img class="flower_image"src="../Images/magnolia.jpg" alt="">
-                    <div class="icons">
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="cart-button">Add to cart</a>
-                        <!-- <a href="#" class="fas fa-share"></a> -->
-                    </div>
-
-                    <div class="content">
-                        <h3>Magnolia</h3>
-                        <div class="price">15 Lei</div>
-                    </div>
-                </div>
-            </div>
         </div>
-
-
     </section>
 
-
+</section>
     <div class="footer"></div>
 
     <script>
@@ -121,6 +48,159 @@
             window.location.href = '../view/main.html';
         }
     });
+
+    async function fetchProducts() {
+            const response = await fetch('http://127.0.0.1:8085/cultures', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            });
+
+            if (response.ok) {
+                const products = await response.json();
+                const container = document.getElementById('product-container');
+                container.innerHTML = '';
+
+                products.forEach(product =>  {
+                    const box = document.createElement('div');
+                    box.className = 'box';
+
+                    const img = document.createElement('img');
+                    img.className = 'flower_image';
+                    img.src = `data:image/jpeg;base64,${product.photo}`;
+                    img.alt = product.flower_name;
+
+                    const name = document.createElement('div');
+                    name.className = 'name';
+                    name.textContent = product.flower_name;
+
+                    const price = document.createElement('div');
+                    price.className = 'price';
+                    price.textContent = `${product.price} RON`;
+
+                    const favBtn = document.createElement('a');
+                    favBtn.href = '#favorite';
+                    favBtn.className = 'fav-btn';
+                    favBtn.innerHTML = '<i class="fas fa-heart"></i>';
+
+                    const cartBtn = document.createElement('a');
+                    cartBtn.href = '#cart';
+                    cartBtn.className = 'cart-btn';
+                    cartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+
+                    const modal = document.createElement('div');
+                    modal.className = 'modal';
+                    modal.style.display = 'none';
+
+                    const modalContent = document.createElement('div');
+                    modalContent.className = 'modal-content';
+
+                    const closeBtn = document.createElement('span');
+                    closeBtn.className = 'close';
+                    closeBtn.textContent = '×';
+                    closeBtn.addEventListener('click', function() {
+                        modal.style.display = 'none';
+                    });
+
+                    const productName = document.createElement('h2');
+                    productName.className = 'name';
+                    productName.textContent = product.flower_name;
+
+                    const description = document.createElement('p');
+                    description.className = 'description';
+                    description.innerHTML = '<span class="desc-title">Product description: </span> <span class="desc-details">' + product.details + '</span>';
+
+                    const label = document.createElement('label');
+                    label.textContent = 'Quantity:';
+
+                    const quantityLabel = document.createElement('label');
+                    quantityLabel.setAttribute('for', 'quantity');
+
+                    const quantitySelect = document.createElement('select');
+                    quantitySelect.id = 'quantity';
+                    quantitySelect.name = 'quantity';
+
+                    
+                    for (let i = 1; i <= product.quantity; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = i;
+                        quantitySelect.appendChild(option);
+                    }
+
+
+                    const addToCartBtn = document.createElement('button');
+                    addToCartBtn.textContent = 'Add to cart';
+
+                    addToCartBtn.addEventListener('click', function() {
+                    let productToAdd = {
+                        name: productName.textContent,
+                        description: description.textContent,
+                        quantity: quantitySelect.value,
+                        flowerId: product.flower_id,
+                        price: product.price,
+                        photo: product.photo
+
+                    };
+
+                    console.log(productToAdd);
+
+                    fetch('http://127.0.0.1:8085/shoppingCart', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(productToAdd)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        modal.style.display = "none";
+
+                        alert('Product added to the cart!');
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                });
+
+                    modalContent.appendChild(closeBtn);
+                    modalContent.appendChild(productName);
+                    modalContent.appendChild(description);
+                    modalContent.appendChild(label);
+                    modalContent.appendChild(quantityLabel);
+                    modalContent.appendChild(quantitySelect);
+                    modalContent.appendChild(addToCartBtn);
+                    modal.appendChild(modalContent);
+
+                    document.body.appendChild(modal);
+
+                    cartBtn.addEventListener('click', function() {
+                        modal.style.display = 'block';
+                    });
+
+                    const buttonContainer = document.createElement('div');
+                    buttonContainer.className = 'button-container';
+
+                 
+                    buttonContainer.appendChild(favBtn);
+                    buttonContainer.appendChild(cartBtn);
+
+    
+                    box.appendChild(img);
+                    box.appendChild(name);
+                    box.appendChild(price);
+                    box.appendChild(buttonContainer); 
+
+                    container.appendChild(box);
+                });
+            } else {
+                console.error('Failed to fetch products');
+            }
+        }
+
+        window.onload = fetchProducts;
     </script>
     
 </body>

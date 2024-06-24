@@ -211,6 +211,14 @@ header .icons a:hover {
     background-color: #74c69d;
 }
 
+.desc-title {
+    font-size: 1.5rem !important; 
+}
+
+.desc-details {
+    font-size: 0.7rem !important; 
+}
+
 
 @media (max-width: 768px) {
     .show-flowers .box-container .box {

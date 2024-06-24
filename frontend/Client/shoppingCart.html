@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="./styles/shoppingCart.css">
+    <title>myPlant</title>
+</head>
+<body>
+
+    <header>
+
+        <a href="./home.html" class="logo">myPlant</a>
+
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="./about.html">About</a>
+            <a href="./products.html">Products</a>
+            <a href="../view/doc.html">Documentație</a>
+        </nav>
+
+        <div class="icons">
+            <a href="#" class="fas fa-heart"></a>
+            <a href="./shoppingCart.html" class="fas fa-shopping-cart"></a>
+            <a href="./profile.html" class="fas fa-user"></a>
+            <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
+        </div>
+
+    </header>
+
+    <section class="cart-container">
+
+    <section class="cart-container">
+        <h1>Shopping Cart</h1>
+        <div id="cartContainer"></div>
+    </section>
+
+    </section>
+
+    <script>
+        document.getElementById('logout').addEventListener('click', function(event) {
+        event.preventDefault();
+        var logout = confirm('Are you sure you want to log out?');
+        if (logout) {
+            localStorage.removeItem('token');
+            console.log('Logged out');
+            window.location.href = '../view/main.html';
+        }
+    });
+
+            let cartContainer = document.getElementById('cartContainer');
+        cartContainer.innerHTML = '';
+
+        let token = localStorage.getItem('token');
+
+        fetch('http://127.0.0.1:8085/shoppingCart', { 
+            method  : 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => 
+        {   console.log(response);
+            return response.json();
+        })
+        .catch(error => console.error('Error parsing response:', error))
+        .then(data => {
+            //console.log(data);
+            let cart = data.cartItems.rows;
+            for (let i = 0; i < cart.length; i++) {
+                console.log(cart[i]);
+                let productElement = document.createElement('div');
+                productElement.className = 'cart-item';
+                let imageUrl = cart[i].photo ? `data:image/jpeg;base64,${cart[i].photo}` : 'https://placehold.co/50x50?text=No+Image';
+                productElement.innerHTML = `
+                <img class="product-image" src="${imageUrl}" alt="${cart[i].name}">
+                <div class="product-details">
+                <span>Name: ${cart[i].name} </span>
+                <span>Quantity: ${cart[i].quantity}</span>
+                <span>Price: ${cart[i].price}</span>
+                <span>Total Price: ${cart[i].price * cart[i].quantity} RON</span>
+                </div>
+                <button onclick="removeFromCart(${cart[i].id})">Remove from cart</button>
+                `;
+                cartContainer.appendChild(productElement);
+        }
+         })
+        .catch(error => console.error('Error:', error));
+
+        function removeFromCart(id) {
+        }
+
+    </script>
+
+</body>
+</html>
