@@ -10,6 +10,22 @@ const authentificateToken = require('./middleware/authentificateToken');
 
 const routes = {
     'GET': {
+        '/user/cultures': (req, res) => {
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+            const url = new URL(req.url, `http://${req.headers.host}`);
+            const userId = url.searchParams.get('userId');
+            if (!userId) {
+                res.statusCode = 400;
+                res.end('Bad Request: Missing userId');
+                return;
+            }
+            cultureController.getCulturesByUserId(userId, res);
+        },
         '/flowers': (req, res) => {
             const token = req.headers['authorization'].split(' ')[1];
             if (!token) {
@@ -17,8 +33,6 @@ const routes = {
                 res.end('Unauthorized');
                 return;
             }
-        
-            // Verify the token and get the user ID
         
             flowerController.getFlowers(req, res);
         },
@@ -31,6 +45,7 @@ const routes = {
             }
             cultureController.getAllCultures(req, res);
         },
+
         '/user': (req, res) => {
             const authHeader = req.headers.authorization;
             const token = authHeader && authHeader.split(' ')[1];
@@ -42,14 +57,12 @@ const routes = {
             }
 
             jwt.verify(token, "tigrut", (err, decoded) => {
-                //console.log(decoded)
+
                 if (err) {
                     res.writeHead(403, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Failed to authenticate token' }));
                     return;
                 }
-
-                //console.log(decoded.id);
 
                 userController.getUserById(decoded.id)
                     .then(user => {

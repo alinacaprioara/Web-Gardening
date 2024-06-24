@@ -49,81 +49,189 @@
         </div>
       </section>
 
-  </section>
+    </section>
 
 
-  <script>
-    document.getElementById('logout').addEventListener('click', function (event) {
-      event.preventDefault();
-      var logout = confirm('Are you sure you want to log out?');
-      if (logout) {
-        localStorage.removeItem('token');
-        console.log('Logged out');
-        window.location.href = '../view/main.html';
-      }
-    });
+    <script>
 
-    async function fetchCultures() {
-      const response = await fetch('http://127.0.0.1:8085/cultures', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
+      document.getElementById('logout').addEventListener('click', function (event) {
+        event.preventDefault();
+        var logout = confirm('Are you sure you want to log out?');
+        if (logout) {
+          localStorage.removeItem('token');
+          console.log('Logged out');
+          window.location.href = '../view/main.html';
+        }
       });
 
-      if (response.ok) {
-        const cultures = await response.json();
-        const container = document.getElementById('culture-container');
-        container.innerHTML = '';
 
-        cultures.forEach(culture => {
-          const box = document.createElement('div');
-          box.className = 'box';
+      async function getUserIdFromToken() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('No token found');
+        }
 
-          const img = document.createElement('img');
-          img.className = 'flower_image';
-          img.src = `data:image/jpeg;base64,${culture.photo}`;
-          img.alt = culture.flower_name;
+        try {
+          const response = await fetch('http://127.0.0.1:8085/user', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
 
-          const name = document.createElement('div');
-          name.className = 'name';
-          name.textContent = culture.flower_name;
+          if (!response.ok) {
+            throw new Error('Failed to fetch user info');
+          }
 
-          const price = document.createElement('div');
-          price.className = 'price';
-          price.textContent = `${culture.price} RON`;
+          const user = await response.json();
+          return user.id; 
 
-          const details = document.createElement('div');
-          details.className = 'details';
-          details.textContent = culture.details;
-
-          const manageBtn = document.createElement('a');
-          manageBtn.href = '#manage';
-          manageBtn.className = 'manage-btn';
-          manageBtn.textContent = 'Manage';
-
-          const deleteBtn = document.createElement('a');
-          deleteBtn.href = '#delete';
-          deleteBtn.className = 'delete-btn';
-          deleteBtn.textContent = 'Remove';
-
-          box.appendChild(img);
-          box.appendChild(name);
-          box.appendChild(price);
-          box.appendChild(details);
-          box.appendChild(manageBtn);
-          box.appendChild(deleteBtn);
-
-          container.appendChild(box);
-        });
-      } else {
-        console.error('Failed to fetch cultures');
+        } catch (error) {
+          console.error('Error fetching user info:', error.message);
+          throw error;
+        }
       }
-    }
 
-    window.onload = fetchCultures;
 
-  </script>
+      async function fetchCultures() {
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+
+        try {
+
+          const userId = await getUserIdFromToken();
+
+          const url = `http://127.0.0.1:8085/user/cultures?userId=${userId}`;
+
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+          });
+
+          if (response.ok) {
+            const cultures = await response.json();
+            const container = document.getElementById('culture-container');
+            container.innerHTML = '';
+
+            cultures.forEach(culture => {
+              const box = document.createElement('div');
+              box.className = 'box';
+
+              const img = document.createElement('img');
+              img.className = 'flower_image';
+              img.src = `data:image/jpeg;base64,${culture.photo}`;
+              img.alt = culture.flower_name;
+
+              const name = document.createElement('div');
+              name.className = 'name';
+              name.textContent = culture.flower_name;
+
+              const price = document.createElement('div');
+              price.className = 'price';
+              price.textContent = `${culture.price} RON`;
+
+              const details = document.createElement('div');
+              details.className = 'details';
+              details.textContent = culture.details;
+
+              const manageBtn = document.createElement('a');
+              manageBtn.href = '#manage';
+              manageBtn.className = 'manage-btn';
+              manageBtn.textContent = 'Manage';
+
+              const deleteBtn = document.createElement('a');
+              deleteBtn.href = '#delete';
+              deleteBtn.className = 'delete-btn';
+              deleteBtn.textContent = 'Remove';
+
+              box.appendChild(img);
+              box.appendChild(name);
+              box.appendChild(price);
+              box.appendChild(details);
+              box.appendChild(manageBtn);
+              box.appendChild(deleteBtn);
+
+              container.appendChild(box);
+            });
+          } else {
+            console.error('Failed to fetch cultures');
+          }
+        } catch (error) {
+          console.error('Error fetching cultures:', error.message);
+        }
+      }
+
+      window.onload = fetchCultures;
+
+      // async function fetchCultures() {
+
+
+      //   const response = await fetch('http://127.0.0.1:8085/user/cultures', {
+      //     method: 'GET',
+      //     headers: {
+      //       'Authorization': `Bearer ${localStorage.getItem('token')}`
+      //     },
+      //   });
+
+      //   if (response.ok) {
+      //     const cultures = await response.json();
+      //     const container = document.getElementById('culture-container');
+      //     container.innerHTML = '';
+
+      //     cultures.forEach(culture => {
+      //       const box = document.createElement('div');
+      //       box.className = 'box';
+
+      //       const img = document.createElement('img');
+      //       img.className = 'flower_image';
+      //       img.src = `data:image/jpeg;base64,${culture.photo}`;
+      //       img.alt = culture.flower_name;
+
+      //       const name = document.createElement('div');
+      //       name.className = 'name';
+      //       name.textContent = culture.flower_name;
+
+      //       const price = document.createElement('div');
+      //       price.className = 'price';
+      //       price.textContent = `${culture.price} RON`;
+
+      //       const details = document.createElement('div');
+      //       details.className = 'details';
+      //       details.textContent = culture.details;
+
+      //       const manageBtn = document.createElement('a');
+      //       manageBtn.href = '#manage';
+      //       manageBtn.className = 'manage-btn';
+      //       manageBtn.textContent = 'Manage';
+
+      //       const deleteBtn = document.createElement('a');
+      //       deleteBtn.href = '#delete';
+      //       deleteBtn.className = 'delete-btn';
+      //       deleteBtn.textContent = 'Remove';
+
+      //       box.appendChild(img);
+      //       box.appendChild(name);
+      //       box.appendChild(price);
+      //       box.appendChild(details);
+      //       box.appendChild(manageBtn);
+      //       box.appendChild(deleteBtn);
+
+      //       container.appendChild(box);
+      //     });
+      //   } else {
+      //     console.error('Failed to fetch cultures');
+      //   }
+      // }
+
+      // window.onload = fetchCultures;
+
+    </script>
 
 </body>
 
