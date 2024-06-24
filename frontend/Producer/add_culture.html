@@ -100,18 +100,6 @@
 
         <script>
 
-            function getUserIdFromToken() {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    return null;
-                }
-
-                const payload = token.split('.')[1];
-                const decodedPayload = atob(payload);
-                const payloadObj = JSON.parse(decodedPayload);
-
-                return payloadObj.userId;
-            }
 
             document.getElementById('addCultureForm').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -134,10 +122,10 @@
 
                     formDataObj.photo = base64String;
 
-                    const userId = getUserIdFromToken();
-                    if (userId) {
-                        formDataObj.userId = userId;
-                    }
+                    // const userId = getUserIdFromToken();
+                    // if (userId) {
+                    //     formDataObj.userId = userId;
+                    // }
 
                     const token = localStorage.getItem('token');
 

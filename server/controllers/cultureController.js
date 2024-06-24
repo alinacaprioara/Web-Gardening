@@ -6,8 +6,6 @@ const { get } = require('http');
 
 async function addFlowerCulture(req, res) {
     const {  flowerId, quantity, price, senzors, details, photo } = req.body;
-    console.log("recevied body addFlowerCulture:");
-    console.log(req.body);
     const userId = req.user.id;
 
     try {
@@ -44,7 +42,25 @@ async function getAllCultures(req, res) {
     }
 }
 
+
+const getCulturesByUserId = async (req, res) => {
+
+    const userId = req;
+     
+    console.log('useeeeeeer id: '+userId);
+    try {
+        const cultures = await Culture.getByUserId(userId);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(cultures));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to fetch cultures for user' }));
+    }
+};
+
+
 module.exports = {
     addFlowerCulture,
-    getAllCultures
+    getAllCultures,
+    getCulturesByUserId
 };

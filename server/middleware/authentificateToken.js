@@ -17,4 +17,17 @@ function authentificateToken(req, res, next) {
   });
 }
 
+function getUserIdFromToken() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+      return null;
+  }
+
+  const payload = token.split('.')[1];
+  const decodedPayload = atob(payload);
+  const payloadObj = JSON.parse(decodedPayload);
+
+  return payloadObj.userId;
+}
+
 module.exports = authentificateToken;
