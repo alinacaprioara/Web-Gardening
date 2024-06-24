@@ -5,7 +5,7 @@ const { get } = require('http');
 
 
 async function addFlowerCulture(req, res) {
-    const {  flowerId, quantity, price, senzors, details, photo } = req.body;
+    const {  flowerId, quantity, price, senzors, details, photo, planting_date, expected_harvest_date } = req.body;
     const userId = req.user.id;
 
     try {
@@ -16,7 +16,9 @@ async function addFlowerCulture(req, res) {
             price, 
             senzors: Array.isArray(senzors) ? senzors : [senzors], 
             details, 
-            photo  
+            photo,
+            planting_date,
+            expected_harvest_date  
         });
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
@@ -47,7 +49,6 @@ const getCulturesByUserId = async (req, res) => {
 
     const userId = req;
      
-    console.log('useeeeeeer id: '+userId);
     try {
         const cultures = await Culture.getByUserId(userId);
         res.writeHead(200, { 'Content-Type': 'application/json' });
