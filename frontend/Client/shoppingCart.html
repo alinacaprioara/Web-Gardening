@@ -53,6 +53,8 @@
      });
 
 
+      async function fetchCart()
+        {
         let cartContainer = document.getElementById('cartContainer');
         cartContainer.innerHTML = '';
 
@@ -70,6 +72,7 @@
         })
         .catch(error => console.error('Error parsing response:', error))
         .then(data => {
+
             //console.log(data);
             let cart = data.cartItems.rows;
             for (let i = 0; i < cart.length; i++) {
@@ -91,14 +94,40 @@
         }
          })
         .catch(error => console.error('Error:', error));
+        }
 
         function removeFromCart(id) {
-        let confirmRemove = confirm("Are you sure you want to remove this item from the cart?");
-         if (confirmRemove) {
-        // Add your code to remove the item from the cart here
-        }
-}
+        
+        console.log('Removing product with ID:', id); 
 
+        let confirmRemove = confirm("Are you sure you want to remove this item from the cart?");
+        if (confirmRemove) {
+            fetch('http://127.0.0.1:8085/shoppingCart', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({itemId: id}), 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.status === 'success') {
+                fetchCart();
+                // const itemElement = document.getElementById(`item-${data.itemId}`);
+                // if (itemElement) {
+                //     itemElement.remove();
+                // }
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+            }
+        }
+
+    fetchCart();
 
     </script>
 

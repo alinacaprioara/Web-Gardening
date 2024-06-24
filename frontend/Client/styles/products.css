@@ -123,6 +123,7 @@ header .icons a:hover {
     height: 1.5rem;
     min-height: calc(100vh - 200px);
     margin-bottom: 100px;
+    padding:20px;
 }
 
 .products .products_title {
