@@ -4,120 +4,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" type="text/css" href="./styles/culturi.css">
   <title>myPlant</title>
-
-
-
 </head>
 
 <body>
-
   <header>
-
     <a href="./home.html" class="logo">myPlant</a>
-
     <nav class="navbar">
       <a href="./home.html">Home</a>
       <a href="./about.html">About</a>
       <a href="#">myCultures</a>
       <a href="../main/doc.html">Documentație</a>
     </nav>
-
     <div class="icons">
       <a href="#" class="fas fa-heart"></a>
       <a href="#" class="fas fa-shopping-cart"></a>
       <a href="./profile.html" class="fas fa-user"></a>
       <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
     </div>
-
-
-
   </header>
 
   <section class="content">
-
-    <section class="content">
-      <a id="add_culture" href="./add_culture.html">add flower culture</a>
-      <section class="show-flowers">
-        <div class="box-container" id="culture-container">
-
-        </div>
-      </section>
-
+    <a id="add_culture" href="./add_culture.html">add flower culture</a>
+    <section class="show-flowers">
+      <div class="box-container" id="culture-container"></div>
     </section>
+  </section>
 
-
-    <div id="manageCulturesPopup" class="popup-overlay">
-      <div class="popup-content">
-        <h2>Manage Cultures</h2>
-        <label for="sensorType">Sensor Type:</label>
-        <select id="sensorType" name="sensorType">
-          <option value="temperature">Temperature</option>
-          <option value="humidity">Humidity</option>
-          <option value="photo">Photo analyzer</option>
-        </select>
-
-        <div>
-          <label for="inputData">Choose an image:</label>
-          <div><span id="inputDataLabel"></span></div>
-          <input id="inputData" type="file" name="inputData" accept="image/jpg, image/jpeg, image/png"
-            class="input-file" required>
-          <button id="uploadImage" class="file-upload">Upload</button>
-
-          <button id="downloadRecommendations" style="display:none;">Download Recommendations</button>
-          <button id="closePopup">Close</button>
+  <div id="manageCulturesPopup" class="popup-overlay">
+    <div class="popup-content">
+      <h2>Manage Cultures</h2>
+      <label for="sensorType">Sensor Type:</label>
+      <select id="sensorType" name="sensorType">
+        <option value="temperature">Temperature</option>
+        <option value="humidity">Humidity</option>
+        <option value="photo">Photo analyzer</option>
+      </select>
+      <div>
+        <div id="inputDataContainer">
+          <label for="inputData" id="inputDataLabel">Input Data:</label>
+          <input id="inputData" type="text" name="inputData" required>
         </div>
+
+        <div id="fileInputContainer" style="display: none;">
+          <label for="fileInput">Choose an image:</label>
+          <input id="fileInput" type="file" accept="image/jpg, image/jpeg, image/png">
+          <label id="fileInputLabel"></label>
+          <button id="uploadImage">Upload</button>
+        </div>
+        <button id="downloadRecommendations" style="display:none;">Download Recommendations</button>
+        <button id="closePopup">Close</button>
       </div>
     </div>
+  </div>
 
+  <script>
+    document.getElementById('logout').addEventListener('click', function (event) {
+      event.preventDefault();
+      var logout = confirm('Are you sure you want to log out?');
+      if (logout) {
+        localStorage.removeItem('token');
+        console.log('Logged out');
+        window.location.href = '../view/main.html';
+      }
+    });
 
-
-    <script>
-
-      document.getElementById('logout').addEventListener('click', function (event) {
-        event.preventDefault();
-        var logout = confirm('Are you sure you want to log out?');
-        if (logout) {
-          localStorage.removeItem('token');
-          console.log('Logged out');
-          window.location.href = '../view/main.html';
-        }
-      });
-
-
-      async function getUserIdFromToken() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('No token found');
-        }
-
-        try {
-          const response = await fetch('http://127.0.0.1:8085/user', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to fetch user info');
-          }
-
-          const user = await response.json();
-          return user.id;
-
-        } catch (error) {
-          console.error('Error fetching user info:', error.message);
-          throw error;
-        }
+    async function getUserIdFromToken() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found');
       }
 
-      async function getRecommendations(sensorType, flowerName, inputData) {
+      try {
+        const response = await fetch('http://127.0.0.1:8085/user', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user info');
+        }
+
+        const user = await response.json();
+        return user.id;
+
+      } catch (error) {
+        console.error('Error fetching user info:', error.message);
+        throw error;
+      }
+    }
+
+    async function getRecommendations(sensorType, flowerName, inputData) {
       const token = localStorage.getItem('token');
       if (!token) {
         console.error('No token found');
@@ -125,24 +108,40 @@
       }
 
       try {
-        const url = 'http://127.0.0.1:8086/recommendations'; 
+        const url = 'http://127.0.0.1:8086/recommendations';
+        let bodyData;
+
+        
+          bodyData = JSON.stringify({
+            sensorType,
+            flowerName,
+            inputData
+          });
+
+          console.log('Body data:', bodyData);
+        
+
         const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            'Content-Type': sensorType === 'photo' ? 'multipart/form-data' : 'application/json',
           },
-          body: JSON.stringify({
-            sensorType,
-            flowerName,
-            inputData
-          })
+          body: bodyData,
         });
 
         if (response.ok) {
-          const recommendations = await response.json();
-          console.log('Recommendations:', recommendations);
-          alert('Recommendations received. Check console for details.');
+
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = 'recommendations.json';
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+
         } else {
           throw new Error('Failed to fetch recommendations');
         }
@@ -153,276 +152,232 @@
     }
 
 
-      async function fetchCultures() {
-
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('No token found');
-          return;
-        }
-
-        try {
-
-          const userId = await getUserIdFromToken();
-
-          const url = `http://127.0.0.1:8085/user/cultures?userId=${userId}`;
-
-          const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
-          });
-
-          if (response.ok) {
-            const cultures = await response.json();
-            const container = document.getElementById('culture-container');
-            container.innerHTML = '';
-
-            cultures.forEach(culture => {
-              const box = document.createElement('div');
-              box.className = 'box';
-
-              const img = document.createElement('img');
-              img.className = 'flower_image';
-              img.src = `data:image/jpeg;base64,${culture.photo}`;
-              img.alt = culture.flower_name;
-
-              const name = document.createElement('div');
-              name.className = 'name';
-              name.textContent = culture.flower_name;
-
-              const price = document.createElement('div');
-              price.className = 'price';
-              price.textContent = `${culture.price} RON`;
-
-              const details = document.createElement('div');
-              details.className = 'details';
-              details.textContent = culture.details;
-
-              const manageBtn = document.createElement('a');
-              manageBtn.href = '#manage';
-              manageBtn.className = 'manage-btn';
-              manageBtn.textContent = 'Manage';
-
-              const deleteBtn = document.createElement('a');
-              deleteBtn.href = '#delete';
-              deleteBtn.className = 'delete-btn';
-              deleteBtn.textContent = 'Remove';
-              deleteBtn.dataset.cultureId = culture.culture_id;
-
-              box.appendChild(img);
-              box.appendChild(name);
-              box.appendChild(price);
-              box.appendChild(details);
-              box.appendChild(manageBtn);
-              box.appendChild(deleteBtn);
-
-              container.appendChild(box);
-            });
-          } else {
-            console.error('Failed to fetch cultures');
-          }
-        } catch (error) {
-          console.error('Error fetching cultures:', error.message);
-        }
+    async function fetchCultures() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        return;
       }
 
-      window.onload = fetchCultures;
+      try {
+        const userId = await getUserIdFromToken();
+        const url = `http://127.0.0.1:8085/user/cultures?userId=${userId}`;
 
-      document.addEventListener('DOMContentLoaded', function () {
-        fetchCultures();
-
-        updateInputField();
-
-        document.addEventListener('click', function (event) {
-          if (event.target.classList.contains('manage-btn')) {
-            event.preventDefault();
-            openPopup();
-          } else if (event.target.id === 'closePopup') {
-            event.preventDefault();
-            closePopup();
-          }
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
         });
 
+        if (response.ok) {
+          const cultures = await response.json();
+          const container = document.getElementById('culture-container');
+          container.innerHTML = '';
 
-        document.getElementById('getRecommendations').addEventListener('click', function (event) {
+          cultures.forEach(culture => {
+            const box = document.createElement('div');
+            box.className = 'box';
+
+            const img = document.createElement('img');
+            img.className = 'flower_image';
+            img.src = `data:image/jpeg;base64,${culture.photo}`;
+            img.alt = culture.flower_name;
+
+            const name = document.createElement('div');
+            name.className = 'name';
+            name.textContent = culture.flower_name;
+
+            const price = document.createElement('div');
+            price.className = 'price';
+            price.textContent = `${culture.price} RON`;
+
+            const details = document.createElement('div');
+            details.className = 'details';
+            details.textContent = culture.details;
+
+            const manageBtn = document.createElement('a');
+            manageBtn.href = '#manage';
+            manageBtn.className = 'manage-btn';
+            manageBtn.textContent = 'Manage';
+
+            const deleteBtn = document.createElement('a');
+            deleteBtn.href = '#delete';
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Remove';
+            deleteBtn.dataset.cultureId = culture.culture_id;
+
+            box.appendChild(img);
+            box.appendChild(name);
+            box.appendChild(price);
+            box.appendChild(details);
+            box.appendChild(manageBtn);
+            box.appendChild(deleteBtn);
+
+            container.appendChild(box);
+          });
+        } else {
+          console.error('Failed to fetch cultures');
+        }
+      } catch (error) {
+        console.error('Error fetching cultures:', error.message);
+      }
+    }
+
+    window.onload = fetchCultures;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchCultures();
+      updateInputField();
+
+      document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('manage-btn')) {
+          event.preventDefault();
+          openPopup(event.target.closest('.box'));
+          updateInputField();
+          resetInputFields();
+        } else if (event.target.id === 'closePopup') {
+          event.preventDefault();
+          updateInputField();
+          resetInputFields();
+          closePopup();
+          resetPopupContent();
+        }
+      });
+
+      document.addEventListener('click', async function (event) {
+        if (event.target.classList.contains('delete-btn')) {
+          event.preventDefault();
+          const box = event.target.closest('.box');
+          const name = box.querySelector('.name').textContent;
+          const cultureId = event.target.dataset.cultureId;
+          const confirmDelete = confirm(`Are you sure you want to delete ${name}?`);
+          if (confirmDelete) {
+            try {
+              const response = await fetch(`http://127.0.0.1:8085/cultures?cultureId=${cultureId}`, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              });
+              if (response.ok) {
+                box.remove();
+                alert(`Culture ${name} removed successfully.`);
+              } else {
+                throw new Error('Failed to delete culture');
+              }
+            } catch (error) {
+              console.error('Error deleting culture:', error.message);
+              alert(`Failed to delete culture ${name}. Please try again later.`);
+            }
+          }
+        }
+      });
+
+
+      document.getElementById('downloadRecommendations').addEventListener('click', function (event) {
         event.preventDefault();
         const sensorType = document.getElementById('sensorType').value;
         const inputData = document.getElementById('inputData').value;
-        const selectedCulture = document.querySelector('.box.selected .name').textContent; // de revenit aici ca nu cred ca i ok
-        getRecommendations(sensorType, selectedCulture, inputData);
+        const flowerName = document.getElementById('manageCulturesPopup').dataset.flowerName;
+        getRecommendations(sensorType, flowerName, inputData);
       });
 
 
 
-        document.getElementById('sensorType').addEventListener('change', function () {
-          updateInputField();
-        });
 
-
-
-        const fileInput = document.getElementById('inputData');
-        fileInput.addEventListener('change', function () {
-          const fileName = fileInput.files[0].name;
-          const fileInputLabel = document.getElementById('inputDataLabel');
-          fileInputLabel.textContent = fileName;
-        });
-
-
-        document.getElementById('uploadImage').addEventListener('click', function () {
-          const fileInput = document.getElementById('inputData');
-          const file = fileInput.files[0];
-          if (file) {
-            console.log('File uploaded:', file.name);
-            document.getElementById('downloadRecommendations').style.display = 'block';
-          } else {
-            console.error('No file selected');
-          }
-        });
-      });
-
-      function openPopup() {
-        document.getElementById('manageCulturesPopup').style.display = 'flex';
-      }
-
-      function closePopup() {
-        document.getElementById('manageCulturesPopup').style.display = 'none';
-      }
-
-      function updateInputField() {
-        const sensorType = document.getElementById('sensorType').value;
-        const inputDataLabel = document.querySelector('label[for="inputData"]');
-        const inputDataField = document.getElementById('inputData');
-        const fileInputLabel = document.getElementById('inputDataLabel');
-
-        if (sensorType === 'photo') {
-          inputDataLabel.textContent = 'Choose an image:';
-          inputDataField.type = 'file';
-          inputDataField.className = 'input-file';
-          fileInputLabel.textContent = ''; 
-          document.getElementById('downloadRecommendations').style.display = 'none';
-          document.getElementById('uploadImage').style.display = 'inline-block';
-        } else {
-          inputDataLabel.textContent = 'Input Data:';
-          inputDataField.type = 'text';
-          inputDataField.className = '';
-          fileInputLabel.textContent = ''; 
-          document.getElementById('downloadRecommendations').style.display = 'block';
-          document.getElementById('uploadImage').style.display = 'none';
-        }
-      }
-
-      document.addEventListener('DOMContentLoaded', function () {
-        fetchCultures();
-
+      document.getElementById('sensorType').addEventListener('change', function () {
         updateInputField();
-
-        document.addEventListener('click', function (event) {
-          if (event.target.classList.contains('manage-btn')) {
-            event.preventDefault();
-            openPopup();
-          } else if (event.target.id === 'closePopup') {
-            event.preventDefault();
-            closePopup();
-          }
-        });
-
-        document.addEventListener('click', async function (event) {
-          if (event.target.classList.contains('delete-btn')) {
-            event.preventDefault();
-            const box = event.target.closest('.box');
-            const name = box.querySelector('.name').textContent;
-            const cultureId = event.target.dataset.cultureId;
-            const confirmDelete = confirm(`Are you sure you want to delete ${name}?`);
-
-            if (confirmDelete) {
-              try {
-                const response = await fetch(`http://127.0.0.1:8085/cultures?cultureId=${cultureId}`, {
-                  method: 'DELETE',
-                  headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                  }
-                });
-
-                if (response.ok) {
-                  box.remove();
-                  alert(`Culture ${name} removed successfully.`);
-                } else {
-                  throw new Error('Failed to delete culture');
-                }
-              } catch (error) {
-                console.error('Error deleting culture:', error.message);
-                alert(`Failed to delete culture ${name}. Please try again later.`);
-              }
-            }
-          }
-        });
-
-
-
-
-        document.getElementById('sensorType').addEventListener('change', function () {
-          updateInputField();
-        });
-
-        const fileInput = document.getElementById('inputData');
-        fileInput.addEventListener('change', function () {
-          const fileName = fileInput.files[0].name;
-          const fileInputLabel = document.getElementById('inputDataLabel');
-          fileInputLabel.textContent = fileName;
-        });
-
-        document.getElementById('uploadImage').addEventListener('click', function () {
-          const fileInput = document.getElementById('inputData');
-          const file = fileInput.files[0];
-          if (file) {
-            console.log('File uploaded:', file.name);
-            document.getElementById('downloadRecommendations').style.display = 'block';
-          } else {
-            console.error('No file selected');
-          }
-        });
+        resetInputFields();
       });
 
-      function openPopup() {
-        document.getElementById('manageCulturesPopup').style.display = 'flex';
-      }
 
-      function closePopup() {
-        document.getElementById('manageCulturesPopup').style.display = 'none';
-      }
+      document.getElementById('uploadImage').addEventListener('click', function (event) {
+        event.preventDefault();
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput.files.length > 0) {
+          document.getElementById('fileInputLabel').textContent = fileInput.files[0].name;
 
-      function updateInputField() {
-        const sensorType = document.getElementById('sensorType').value;
-        const inputDataLabel = document.querySelector('label[for="inputData"]');
-        const inputDataField = document.getElementById('inputData');
-        const fileInputLabel = document.getElementById('inputDataLabel');
+          const file = fileInput.files[0];
+          const reader = new FileReader();
+          reader.onloadend = async function () {
 
-        if (sensorType === 'photo') {
-          inputDataLabel.textContent = 'Choose an image:';
-          inputDataField.type = 'file';
-          inputDataField.className = 'input-file';
-          fileInputLabel.textContent = '';
-          document.getElementById('downloadRecommendations').style.display = 'none';
-          document.getElementById('uploadImage').style.display = 'inline-block';
+            const base64String = reader.result.replace(/^data:.+;base64,/, '');
+
+
+            document.getElementById('inputData').value = base64String;
+
+            document.getElementById('downloadRecommendations').style.display = 'flex';
+
+
+          };
+          reader.readAsDataURL(file);
+
         } else {
-          inputDataLabel.textContent = 'Input Data:';
-          inputDataField.type = 'text';
-          inputDataField.className = '';
-          fileInputLabel.textContent = ''; 
-          document.getElementById('downloadRecommendations').style.display = 'block';
-          document.getElementById('uploadImage').style.display = 'none';
+          alert('Please choose a file to upload');
         }
+      });
+
+
+
+
+
+    });
+
+    function updateInputField() {
+      const sensorType = document.getElementById('sensorType').value;
+      const inputDataContainer = document.getElementById('inputDataContainer');
+      const fileInputContainer = document.getElementById('fileInputContainer');
+      const downloadRecommendationsBtn = document.getElementById('downloadRecommendations');
+
+      if (sensorType === 'photo') {
+        inputDataContainer.style.display = 'none';
+        fileInputContainer.style.display = 'block';
+        downloadRecommendationsBtn.style.display = 'none';
+      } else {
+        inputDataContainer.style.display = 'block';
+        fileInputContainer.style.display = 'none';
+        downloadRecommendationsBtn.style.display = 'block';
       }
+    }
 
 
+    // open and close pop up functions
 
-    </script>
+    function openPopup(box) {
+      const cultureName = box.querySelector('.name').textContent;
+      const popup = document.getElementById('manageCulturesPopup');
+      popup.style.display = 'flex';
+      popup.dataset.flowerName = cultureName;
+    }
+
+    function closePopup() {
+      const popup = document.getElementById('manageCulturesPopup');
+      popup.style.display = 'none';
+
+    }
+
+    function resetPopupContent() {
+      document.getElementById('inputData').value = '';
+      document.getElementById('fileInputLabel').textContent = '';
+      document.getElementById('fileInputContainer').style.display = 'none';
+      document.getElementById('downloadRecommendations').style.display = 'none';
+    }
 
 
+    function resetInputFields() {
+
+      const sensorType = document.getElementById('sensorType').value;
+      if (sensorType === 'photo') {
+        document.getElementById('inputData').value = '';
+      } else {
+        document.getElementById('fileInput').value = '';
+        document.getElementById('fileInputLabel').textContent = '';
+      }
+    }
 
 
+  </script>
 </body>
 
 </html>
