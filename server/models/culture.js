@@ -64,6 +64,11 @@ class Culture {
         const { rows } = await db.query(query, [userId]);
         return rows;
     }
+
+    static async deleteById(id) {
+        const query = `DELETE FROM cultures WHERE id = $1`;
+        await db.query(query, [id]);
+    }
     
 }
 

@@ -59,9 +59,22 @@ const getCulturesByUserId = async (req, res) => {
     }
 };
 
+const deleteCulture = async (req, res) => {
+    const cultureId = req;
+    try {
+        await Culture.deleteById(cultureId);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Culture deleted' }));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to delete culture' }));
+    }
+}
+
 
 module.exports = {
     addFlowerCulture,
     getAllCultures,
-    getCulturesByUserId
+    getCulturesByUserId,
+    deleteCulture
 };
