@@ -30,7 +30,14 @@
 
     </header>
 
-    <div id="cartContainer"></div>
+    <section class="cart-container">
+
+    <section class="cart-container">
+        <h1>Shopping Cart</h1>
+        <div id="cartContainer"></div>
+    </section>
+
+    </section>
 
     <script>
         document.getElementById('logout').addEventListener('click', function(event) {
@@ -68,9 +75,14 @@
                 productElement.className = 'cart-item';
                 let imageUrl = cart[i].photo ? `data:image/jpeg;base64,${cart[i].photo}` : 'https://placehold.co/50x50?text=No+Image';
                 productElement.innerHTML = `
-                    <img src="${imageUrl}" alt="${cart[i].name}">
-                    <span>Name: ${cart[i].name}, Quantity: ${cart[i].quantity}</span>
-                    <button onclick="removeFromCart(${cart[i].id})">Remove from cart</button>
+                <img class="product-image" src="${imageUrl}" alt="${cart[i].name}">
+                <div class="product-details">
+                <span>Name: ${cart[i].name} </span>
+                <span>Quantity: ${cart[i].quantity}</span>
+                <span>Price: ${cart[i].price}</span>
+                <span>Total Price: ${cart[i].price * cart[i].quantity} RON</span>
+                </div>
+                <button onclick="removeFromCart(${cart[i].id})">Remove from cart</button>
                 `;
                 cartContainer.appendChild(productElement);
         }
