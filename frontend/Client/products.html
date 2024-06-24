@@ -63,6 +63,7 @@
                 container.innerHTML = '';
 
                 products.forEach(product =>  {
+                    console.log(product);
                     const box = document.createElement('div');
                     box.className = 'box';
 
@@ -140,8 +141,8 @@
                         quantity: quantitySelect.value,
                         flowerId: product.flower_id,
                         price: product.price,
-                        photo: product.photo
-
+                        photo: product.photo,
+                        cultureId: product.culture_id
                     };
 
                     console.log(productToAdd);
@@ -159,6 +160,7 @@
                         modal.style.display = "none";
 
                         alert('Product added to the cart!');
+                        fetchProducts();
                     })
                     .catch((error) => {
                         console.error('Error:', error);
