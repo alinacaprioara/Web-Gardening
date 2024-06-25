@@ -73,7 +73,7 @@ async function insertNotification(userId, message) {
 
 async function checkReadyStatus() {
     try {
-        const query = 'SELECT * FROM purchaseInterest WHERE ready = true';
+        const query = 'SELECT * FROM cultures WHERE ready = true';
         const res = await db.query(query);
 
         for (let purchase of res.rows) {
