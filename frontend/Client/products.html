@@ -139,8 +139,10 @@
             const addToCartBtn = document.createElement('button');
             addToCartBtn.textContent = 'Add to cart';
 
+            console.log('Product name:', productName.textContent);
+
             addToCartBtn.addEventListener('click', function() {
-                let productToAdd = {
+                let productAdd = {
                     name: productName.textContent,
                     description: description.textContent,
                     quantity: quantitySelect.value,
@@ -150,7 +152,7 @@
                     cultureId: product.culture_id
                 };
 
-                console.log(productToAdd);
+                console.log('Product to add:', productAdd);
 
                 fetch('http://127.0.0.1:8085/shoppingCart', {
                     method: 'POST',
@@ -158,9 +160,11 @@
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(productToAdd)
+                    body: JSON.stringify(productAdd)
                 })
-                .then(response => response.json())
+                .then(response => {
+                 console.log('Response:', response);
+                 return response.json();})
                 .then(data => {
                     modal.style.display = "none";
 

@@ -168,6 +168,10 @@ header .icons a:hover{
     margin-bottom: 100px;
 }
 
+.container_extra{
+    padding: 20px;
+    margin-top: 40px;
+}
 .cart-container h1 {
     text-align: center;
     color: black;
@@ -196,6 +200,16 @@ button:hover {
     color: #333;
     text-align: center;
     margin-top: 20px; 
+}
+
+.cart-total {
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid #2d6a4f;
+    background-color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 @media (max-width: 600px) {
