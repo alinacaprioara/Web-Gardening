@@ -212,6 +212,21 @@ button:hover {
     margin-top: 1rem;
 }
 
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.cart-item {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.cart-total{
+    animation: fadeIn 0.5s ease-in;
+
+}
+
 @media (max-width: 600px) {
 
     .cart-container h1 {

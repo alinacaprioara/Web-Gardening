@@ -117,3 +117,60 @@ header .icons a:hover{
     color:green;
     opacity: 0.8;
 }
+
+
+main {
+    background-color: white;
+    border: 2px solid #2d6a4f;
+    border-radius: 10px;
+    text-align: center;
+    padding: 50px;
+}
+
+main h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+main p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+main h1 i {
+    color: #2d6a4f;
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 20px;
+    }
+
+    main h1 {
+        font-size: 2em;
+    }
+
+    main p {
+        font-size: 1em;
+    }
+
+    header .icons a {
+        font-size: 2rem;
+        margin-left: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+body main h1 {
+    animation: fadeIn 2s ease-in-out;
+}
+
+body main p {
+    animation: fadeIn 2s ease-in-out ;
+}
