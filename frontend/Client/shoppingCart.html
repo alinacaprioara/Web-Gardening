@@ -22,7 +22,7 @@
         </nav>
 
         <div class="icons">
-            <a href="#" class="fas fa-heart"></a>
+            <a href="./favorites.html" class="fas fa-heart"></a>
             <a href="./shoppingCart.html" class="fas fa-shopping-cart"></a>
             <a href="./profile.html" class="fas fa-user"></a>
             <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
@@ -75,6 +75,12 @@
 
             //console.log(data);
             let cart = data.cartItems.rows;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p class="empty-cart-message">The Cart is empty :( </p>';
+                return;
+            }
+
             for (let i = 0; i < cart.length; i++) {
                 console.log(cart[i]);
                 let productElement = document.createElement('div');

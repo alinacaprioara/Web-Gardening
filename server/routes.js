@@ -6,6 +6,7 @@ const authController = require('./controllers/authController');
 const flowerController = require('./controllers/flowerController');
 const userController = require('./controllers/userController');
 const shoppingCartController = require('./controllers/shoppingCartController');
+const wishlistController = require('./controllers/wishlistController');
 const authentificateToken = require('./middleware/authentificateToken');
 
 
@@ -37,6 +38,17 @@ const routes = {
         
             flowerController.getFlowers(req, res);
         },
+        '/flowers/:id': (req, res) => {
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+            const url = new URL(req.url, `http://${req.headers.host}`);
+            const id = url.pathname.split('/').pop();
+            flowerController.getFlowerById(id, res);
+        },
         '/cultures': (req, res) => {
             const token = req.headers['authorization'].split(' ')[1];
             if (!token) {
@@ -46,7 +58,17 @@ const routes = {
             }
             cultureController.getAllCultures(req, res);
         },
-
+        '/cultures/:id': (req, res) => {
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+            const url = new URL(req.url, `http://${req.headers.host}`);
+            const id = url.pathname.split('/').pop();
+            cultureController.getCultureById(id, res);
+        },
         '/user': (req, res) => {
             const authHeader = req.headers.authorization;
             const token = authHeader && authHeader.split(' ')[1];
@@ -85,6 +107,15 @@ const routes = {
                 return;
             }
             shoppingCartController.getShoppingCart(req, res);
+        },
+        '/wishlist': (req, res) => {
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+            wishlistController.getWishlist(req, res);
         }
         
     },
@@ -138,6 +169,16 @@ const routes = {
                 req.body = JSON.parse(body);
                 shoppingCartController.addProduct(req, res);
             });
+        },
+        '/wishlist': (req, res) => {
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            req.on('end', () => {
+                req.body = JSON.parse(body);
+                wishlistController.addProduct(req, res);
+            });
         }
     },
     'DELETE': {
@@ -167,6 +208,22 @@ const routes = {
             }
             shoppingCartController.deleteProduct(req, res);
         });
+    },
+    '/wishlist': (req, res) => { 
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            req.body = JSON.parse(body);
+            const token = req.headers['authorization'].split(' ')[1];
+            if (!token) {
+                res.statusCode = 401;
+                res.end('Unauthorized');
+                return;
+            }
+            wishlistController.deleteProduct(req, res);
+        });
     }
     
     },
@@ -178,10 +235,19 @@ function handleRoute(req, res) {
     const pathname = parsedUrl.pathname;
     const method = req.method;
 
+    if (pathname.startsWith('/cultures/')) {
+        routes['GET']['/cultures'](req, res);
+        return;
+    }
+
+    if (pathname.startsWith('/flowers/')) {
+        routes['GET']['/flowers'](req, res);
+        return;
+    }
+
     const routeHandler = routes[method] && routes[method][pathname];
 
     const protectedRoutes = ['/flowers', '/cultures', '/user', '/change-password', '/shoppingCart']; 
-
 
     if (routeHandler) {
         if (protectedRoutes.includes(pathname)) {
