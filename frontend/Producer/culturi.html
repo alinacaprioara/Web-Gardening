@@ -100,57 +100,87 @@
       }
     }
 
+
+
     async function getRecommendations(sensorType, flowerName, inputData) {
-      const token = localStorage.getItem('token');
-      if (!token) {
+    const token = localStorage.getItem('token');
+    if (!token) {
         console.error('No token found');
         return;
-      }
+    }
 
-      try {
+    try {
         const url = 'http://127.0.0.1:8086/recommendations';
-        let bodyData;
-
-        
-          bodyData = JSON.stringify({
+        const bodyData = JSON.stringify({
             sensorType,
             flowerName,
             inputData
-          });
-
-          console.log('Body data:', bodyData);
-        
-
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': sensorType === 'photo' ? 'multipart/form-data' : 'application/json',
-          },
-          body: bodyData,
         });
 
-        if (response.ok) {
 
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.style.display = 'none';
-          a.href = url;
-          a.download = 'recommendations.json';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: bodyData,
+        });
 
-        } else {
-          throw new Error('Failed to fetch recommendations');
+        if (!response.ok) {
+            throw new Error('Failed to fetch recommendations');
         }
-      } catch (error) {
+
+        const blob = await response.blob();
+
+        if (sensorType === 'photo') {
+            const cultureId = document.getElementById('manageCulturesPopup').dataset.cultureId;
+
+            const updateUrl = `http://127.0.0.1:8085/cultures?cultureId=${cultureId}`;
+
+            console.log('Updating culture readiness for cultureId:', cultureId);
+
+            const updateResponse = await fetch(`http://127.0.0.1:8085/cultures?cultureId=${cultureId}`, {
+                method: 'DELETE',
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              });
+
+            if (!updateResponse.ok) {
+                throw new Error('Failed to update culture readiness');
+            }
+
+            console.log(`Culture ${cultureId} marked as ready for harvest`);
+
+
+            const messageContainer = document.getElementById('messageContainer');
+            const messageText = document.getElementById('messageText');
+            messageText.textContent = `Culture ${flowerName} is ready for harvest!`;
+            messageContainer.style.display = 'block';
+
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 3000);
+        }
+
+        const urlObject = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = urlObject;
+        a.download = 'recommendations.json';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlObject);
+
+    } catch (error) {
         console.error('Error fetching recommendations:', error.message);
         alert('Failed to fetch recommendations. Please try again later.');
-      }
     }
+}
 
+
+     
 
     async function fetchCultures() {
       const token = localStorage.getItem('token');
@@ -178,6 +208,7 @@
           cultures.forEach(culture => {
             const box = document.createElement('div');
             box.className = 'box';
+            box.dataset.cultureId = culture.culture_id;
 
             const img = document.createElement('img');
             img.className = 'flower_image';
@@ -275,15 +306,6 @@
       });
 
 
-      document.getElementById('downloadRecommendations').addEventListener('click', function (event) {
-        event.preventDefault();
-        const sensorType = document.getElementById('sensorType').value;
-        const inputData = document.getElementById('inputData').value;
-        const flowerName = document.getElementById('manageCulturesPopup').dataset.flowerName;
-        getRecommendations(sensorType, flowerName, inputData);
-      });
-
-
 
 
       document.getElementById('sensorType').addEventListener('change', function () {
@@ -319,7 +341,13 @@
       });
 
 
-
+      document.getElementById('downloadRecommendations').addEventListener('click', function (event) {
+        event.preventDefault();
+        const sensorType = document.getElementById('sensorType').value;
+        const inputData = document.getElementById('inputData').value;
+        const flowerName = document.getElementById('manageCulturesPopup').dataset.flowerName;
+        getRecommendations(sensorType, flowerName, inputData);
+      });
 
 
     });
@@ -349,6 +377,7 @@
       const popup = document.getElementById('manageCulturesPopup');
       popup.style.display = 'flex';
       popup.dataset.flowerName = cultureName;
+      popup.dataset.cultureId = box.getAttribute('data-culture-id');
     }
 
     function closePopup() {
@@ -378,6 +407,13 @@
 
 
   </script>
+
+
+<div id="messageContainer" style="display: none;">
+  <p id="messageText"></p>
+</div>
+
+
 </body>
 
 </html>

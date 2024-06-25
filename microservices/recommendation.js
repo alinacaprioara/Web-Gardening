@@ -54,7 +54,7 @@ const server = http.createServer((req, res) => {
         const { sensorType, flowerName, inputData } = parsedBody;
   
         if (sensorType === 'photo') {
-          console.log(`Received sensor type: ${sensorType}, flower name: ${flowerName}, image length: ${inputData.length}`);
+          // console.log(`Received sensor type: ${sensorType}, flower name: ${flowerName}, image length: ${inputData.length}`);
           const imageBuffer = Buffer.from(inputData, 'base64');
   
           Jimp.read(imageBuffer)
@@ -75,7 +75,7 @@ const server = http.createServer((req, res) => {
               }
   
               const recommendations = greenPixelCount > 1000 ? "The flower culture is ready for harvest" : "The flowers are still growing, looking great!";
-              const responseJSON = JSON.stringify({ recommendations });
+              const responseJSON = JSON.stringify({sensorType, flowerName, recommendations });
   
               res.setHeader('Content-Disposition', 'attachment; filename="recommendations.json"');
               res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -94,7 +94,7 @@ const server = http.createServer((req, res) => {
             const recommendations = getRandomRecommendation(sensorType);
             res.setHeader('Content-Disposition', 'attachment; filename="recommendations.json"');
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ recommendations, level }));
+            res.end(JSON.stringify({ sensorType, flowerName, inputData, recommendations}));
           }, 2000);
         }
       } catch (error) {
