@@ -72,9 +72,22 @@ const deleteCulture = async (req, res) => {
 }
 
 
+const getCultureById = async (req, res) => {
+    const cultureId = req;
+    try {
+        const result = await Culture.getById(cultureId);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result.rows[0]));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to fetch culture' }));
+    }
+};
+
 module.exports = {
     addFlowerCulture,
     getAllCultures,
     getCulturesByUserId,
+    getCultureById,
     deleteCulture
 };

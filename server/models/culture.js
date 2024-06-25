@@ -69,6 +69,11 @@ class Culture {
         const query = `DELETE FROM cultures WHERE id = $1`;
         await db.query(query, [id]);
     }
+
+    static async getFlowerId(cultureId) {
+        const result = await pool.query('SELECT flower_id FROM cultures WHERE id = $1', [cultureId]);
+        return result.rows[0];
+    }
     
 }
 

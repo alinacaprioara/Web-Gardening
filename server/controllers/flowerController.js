@@ -11,6 +11,17 @@ async function getFlowers(req, res) {
   }
 }
 
+async function getFlowerById(req, res) {
+  try {
+    const flower = await Flower.getById(req.params.id);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(flower));
+  } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
+    res.end('Internal Server Error');
+  }
+}
+
 module.exports = {
-  getFlowers,
+  getFlowers, getFlowerById,
 };
