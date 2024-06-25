@@ -60,7 +60,7 @@
           <label id="fileInputLabel"></label>
           <button id="uploadImage">Upload</button>
         </div>
-        <button id="downloadRecommendations" style="display:none;">Download Recommendations</button>
+        <button id="downloadRecommendations" style="display:none;">Recommendations</button>
         <button id="closePopup">Close</button>
       </div>
     </div>
@@ -136,27 +136,25 @@
         }
 
         const blob = await response.blob();
+        const text = await blob.text();
+        const responseData = JSON.parse(text);
+        const isReadyForHarvest = sensorType === 'photo' && responseData.recommendations && responseData.recommendations.includes('harvest');
 
-        if (sensorType === 'photo') {
+
+        if (isReadyForHarvest) {
             const cultureId = document.getElementById('manageCulturesPopup').dataset.cultureId;
 
-            const updateUrl = `http://127.0.0.1:8085/cultures?cultureId=${cultureId}`;
-
-            console.log('Updating culture readiness for cultureId:', cultureId);
-
             const updateResponse = await fetch(`http://127.0.0.1:8085/cultures?cultureId=${cultureId}`, {
-                method: 'DELETE',
+                method: 'PUT',
                 headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                  'Content-Type': 'application/json',
                 }
               });
 
             if (!updateResponse.ok) {
                 throw new Error('Failed to update culture readiness');
             }
-
-            console.log(`Culture ${cultureId} marked as ready for harvest`);
-
 
             const messageContainer = document.getElementById('messageContainer');
             const messageText = document.getElementById('messageText');
@@ -166,7 +164,23 @@
             setTimeout(() => {
                 messageContainer.style.display = 'none';
             }, 3000);
+
+            closePopup();
         }
+        else if(sensorType === 'photo')
+        {
+          const messageContainer = document.getElementById('messageContainer');
+            const messageText = document.getElementById('messageText');
+            messageText.textContent = `The flowers are still growing, looking great!`;
+            messageContainer.style.display = 'block';
+
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 3000);
+        }
+
+  
+
 
         const urlObject = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
