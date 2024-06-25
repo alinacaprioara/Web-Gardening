@@ -22,7 +22,7 @@
         </nav>
 
         <div class="icons">
-            <a href="#" class="fas fa-heart"></a>
+            <a href="./favorites.html" class="fas fa-heart"></a>
             <a href="./shoppingCart.html" class="fas fa-shopping-cart"></a>
             <a href="./profile.html" class="fas fa-user"></a>
             <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
@@ -37,7 +37,12 @@
         <div id="cartContainer"></div>
     </section>
 
+    <div class="container_extra">
+    </div>
+
     </section>
+
+    
 
 
     <script>
@@ -53,6 +58,8 @@
      });
 
 
+      async function fetchCart()
+        {
         let cartContainer = document.getElementById('cartContainer');
         cartContainer.innerHTML = '';
 
@@ -70,10 +77,19 @@
         })
         .catch(error => console.error('Error parsing response:', error))
         .then(data => {
+
             //console.log(data);
             let cart = data.cartItems.rows;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p class="empty-cart-message">The Cart is empty :( </p>';
+                return;
+            }
+            
+            let total = 0;
+
             for (let i = 0; i < cart.length; i++) {
-                console.log(cart[i]);
+                console.log('Cart:', cart[i]);
                 let productElement = document.createElement('div');
                 productElement.className = 'cart-item';
                 let imageUrl = cart[i].photo ? `data:image/jpeg;base64,${cart[i].photo}` : 'https://placehold.co/50x50?text=No+Image';
@@ -88,17 +104,55 @@
                 <button onclick="removeFromCart(${cart[i].id})">Remove from cart</button>
                 `;
                 cartContainer.appendChild(productElement);
+
+                total += cart[i].price * cart[i].quantity;
         }
+        
+            console.log('Total:', total);
+
+            if(total)
+            {   
+                let totalElement = document.createElement('div');
+                totalElement.className = 'cart-total';
+                totalElement.textContent = `Total: ${total.toFixed(2)} RON`;
+                cartContainer.appendChild(totalElement);
+            }
          })
         .catch(error => console.error('Error:', error));
+        }
 
         function removeFromCart(id) {
-        let confirmRemove = confirm("Are you sure you want to remove this item from the cart?");
-         if (confirmRemove) {
-        // Add your code to remove the item from the cart here
-        }
-}
+        
+        console.log('Removing product with ID:', id); 
 
+        let confirmRemove = confirm("Are you sure you want to remove this item from the cart?");
+        if (confirmRemove) {
+            fetch('http://127.0.0.1:8085/shoppingCart', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({itemId: id}), 
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.status === 'success') {
+                fetchCart();
+                // const itemElement = document.getElementById(`item-${data.itemId}`);
+                // if (itemElement) {
+                //     itemElement.remove();
+                // }
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+            }
+        }
+
+    fetchCart();
 
     </script>
 

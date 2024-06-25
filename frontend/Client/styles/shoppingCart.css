@@ -119,7 +119,8 @@ header .icons a:hover{
 }
 
 .cart-item {
-    border: 1px solid white;
+    border: 2px solid #2d6a4f;
+    border-radius: 10px;
     background-color: white;
     font-size: 15px;
     margin: 10px;
@@ -130,6 +131,8 @@ header .icons a:hover{
 }
 .cart-item button {
     background-color: #f44336;
+    border: 2px solid #9d0f05;
+    border-radius: 10px;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -165,6 +168,10 @@ header .icons a:hover{
     margin-bottom: 100px;
 }
 
+.container_extra{
+    padding: 20px;
+    margin-top: 40px;
+}
 .cart-container h1 {
     text-align: center;
     color: black;
@@ -182,6 +189,27 @@ button:hover {
     background-color: #9d0f05;
     color: white;
     cursor:pointer;
+}
+
+.empty-cart-message {
+    font-size: 3rem; 
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    border:#2d6a4f 2px solid;
+    color: #333;
+    text-align: center;
+    margin-top: 20px; 
+}
+
+.cart-total {
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid #2d6a4f;
+    background-color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
 }
 
 @media (max-width: 600px) {

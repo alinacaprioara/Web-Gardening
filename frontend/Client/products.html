@@ -19,7 +19,7 @@
             <a href="../view/doc.html">Documentație</a>
         </nav>
         <div class="icons">
-            <a href="#" class="fas fa-heart"></a>
+            <a href="./favorites.html" class="fas fa-heart"></a>
             <a href="./shoppingCart.html" class="fas fa-shopping-cart"></a>
             <a href="./profile.html" class="fas fa-user"></a>
             <a href="#" id="logout" class="fas fa-sign-out-alt"></a>
@@ -35,8 +35,11 @@
         </div>
     </section>
 
+    <section class="products">
+
 </section>
-    <div class="footer"></div>
+
+ 
 
     <script>
         document.getElementById('logout').addEventListener('click', function(event) {
@@ -50,159 +53,242 @@
     });
 
     async function fetchProducts() {
-            const response = await fetch('http://127.0.0.1:8085/cultures', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
+    const response = await fetch('http://127.0.0.1:8085/cultures', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
+
+    if (response.ok) {
+        const products = await response.json();
+        const container = document.getElementById('product-container');
+        container.innerHTML = '';
+
+        products.forEach(product => {
+            console.log(product);
+            const box = document.createElement('div');
+            box.className = 'box';
+
+            const img = document.createElement('img');
+            img.className = 'flower_image';
+            img.src = `data:image/jpeg;base64,${product.photo}`;
+            img.alt = product.flower_name;
+
+            const name = document.createElement('div');
+            name.className = 'name';
+            name.textContent = product.flower_name;
+
+            const price = document.createElement('div');
+            price.className = 'price';
+            price.textContent = `${product.price} RON`;
+
+            const favBtn = document.createElement('a');
+            favBtn.href = '#favorite';
+            favBtn.className = 'fav-btn';
+            favBtn.innerHTML = '<i class="fas fa-heart"></i>';
+
+            const cartBtn = document.createElement('a');
+            cartBtn.href = '#cart';
+            cartBtn.className = 'cart-btn';
+            cartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'none';
+
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
+
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'close';
+            closeBtn.textContent = '×';
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
             });
 
-            if (response.ok) {
-                const products = await response.json();
-                const container = document.getElementById('product-container');
-                container.innerHTML = '';
+            const productName = document.createElement('h2');
+            productName.className = 'name';
+            productName.textContent = product.flower_name;
 
-                products.forEach(product =>  {
-                    console.log(product);
-                    const box = document.createElement('div');
-                    box.className = 'box';
+            const description = document.createElement('p');
+            description.className = 'description';
+            description.innerHTML = '<span class="desc-title">Product description: </span> <span class="desc-details">' + product.details + '</span>';
 
-                    const img = document.createElement('img');
-                    img.className = 'flower_image';
-                    img.src = `data:image/jpeg;base64,${product.photo}`;
-                    img.alt = product.flower_name;
+            const productPrice = document.createElement('p');
+            productPrice.className = 'Pprice';
+            productPrice.textContent = `${product.price} RON`;
 
-                    const name = document.createElement('div');
-                    name.className = 'name';
-                    name.textContent = product.flower_name;
+            const label = document.createElement('label');
+            label.textContent = 'Quantity:';
 
-                    const price = document.createElement('div');
-                    price.className = 'price';
-                    price.textContent = `${product.price} RON`;
+            const quantityLabel = document.createElement('label');
+            quantityLabel.setAttribute('for', 'quantity');
 
-                    const favBtn = document.createElement('a');
-                    favBtn.href = '#favorite';
-                    favBtn.className = 'fav-btn';
-                    favBtn.innerHTML = '<i class="fas fa-heart"></i>';
+            const quantitySelect = document.createElement('select');
+            quantitySelect.id = 'quantity';
+            quantitySelect.name = 'quantity';
 
-                    const cartBtn = document.createElement('a');
-                    cartBtn.href = '#cart';
-                    cartBtn.className = 'cart-btn';
-                    cartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i>';
-
-                    const modal = document.createElement('div');
-                    modal.className = 'modal';
-                    modal.style.display = 'none';
-
-                    const modalContent = document.createElement('div');
-                    modalContent.className = 'modal-content';
-
-                    const closeBtn = document.createElement('span');
-                    closeBtn.className = 'close';
-                    closeBtn.textContent = '×';
-                    closeBtn.addEventListener('click', function() {
-                        modal.style.display = 'none';
-                    });
-
-                    const productName = document.createElement('h2');
-                    productName.className = 'name';
-                    productName.textContent = product.flower_name;
-
-                    const description = document.createElement('p');
-                    description.className = 'description';
-                    description.innerHTML = '<span class="desc-title">Product description: </span> <span class="desc-details">' + product.details + '</span>';
-
-                    const label = document.createElement('label');
-                    label.textContent = 'Quantity:';
-
-                    const quantityLabel = document.createElement('label');
-                    quantityLabel.setAttribute('for', 'quantity');
-
-                    const quantitySelect = document.createElement('select');
-                    quantitySelect.id = 'quantity';
-                    quantitySelect.name = 'quantity';
-
-                    
-                    for (let i = 1; i <= product.quantity; i++) {
-                        const option = document.createElement('option');
-                        option.value = i;
-                        option.textContent = i;
-                        quantitySelect.appendChild(option);
-                    }
-
-
-                    const addToCartBtn = document.createElement('button');
-                    addToCartBtn.textContent = 'Add to cart';
-
-                    addToCartBtn.addEventListener('click', function() {
-                    let productToAdd = {
-                        name: productName.textContent,
-                        description: description.textContent,
-                        quantity: quantitySelect.value,
-                        flowerId: product.flower_id,
-                        price: product.price,
-                        photo: product.photo,
-                        cultureId: product.culture_id
-                    };
-
-                    console.log(productToAdd);
-
-                    fetch('http://127.0.0.1:8085/shoppingCart', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(productToAdd)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        modal.style.display = "none";
-
-                        alert('Product added to the cart!');
-                        fetchProducts();
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-                });
-
-                    modalContent.appendChild(closeBtn);
-                    modalContent.appendChild(productName);
-                    modalContent.appendChild(description);
-                    modalContent.appendChild(label);
-                    modalContent.appendChild(quantityLabel);
-                    modalContent.appendChild(quantitySelect);
-                    modalContent.appendChild(addToCartBtn);
-                    modal.appendChild(modalContent);
-
-                    document.body.appendChild(modal);
-
-                    cartBtn.addEventListener('click', function() {
-                        modal.style.display = 'block';
-                    });
-
-                    const buttonContainer = document.createElement('div');
-                    buttonContainer.className = 'button-container';
-
-                 
-                    buttonContainer.appendChild(favBtn);
-                    buttonContainer.appendChild(cartBtn);
-
-    
-                    box.appendChild(img);
-                    box.appendChild(name);
-                    box.appendChild(price);
-                    box.appendChild(buttonContainer); 
-
-                    container.appendChild(box);
-                });
-            } else {
-                console.error('Failed to fetch products');
+            for (let i = 1; i <= product.quantity; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                quantitySelect.appendChild(option);
             }
-        }
 
-        window.onload = fetchProducts;
+            const addToCartBtn = document.createElement('button');
+            addToCartBtn.textContent = 'Add to cart';
+
+            console.log('Product name:', productName.textContent);
+
+            addToCartBtn.addEventListener('click', function() {
+                let productAdd = {
+                    name: productName.textContent,
+                    description: description.textContent,
+                    quantity: quantitySelect.value,
+                    flowerId: product.flower_id,
+                    price: product.price,
+                    photo: product.photo,
+                    cultureId: product.culture_id
+                };
+
+                console.log('Product to add:', productAdd);
+
+                fetch('http://127.0.0.1:8085/shoppingCart', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productAdd)
+                })
+                .then(response => {
+                 console.log('Response:', response);
+                 return response.json();})
+                .then(data => {
+                    modal.style.display = "none";
+
+                    alert('Product added to the cart!');
+                    fetchProducts();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+
+            modalContent.appendChild(closeBtn);
+            modalContent.appendChild(productName);
+            modalContent.appendChild(description);
+            modalContent.appendChild(productPrice);
+            modalContent.appendChild(label);
+            modalContent.appendChild(quantityLabel);
+            modalContent.appendChild(quantitySelect);
+            modalContent.appendChild(addToCartBtn);
+            modal.appendChild(modalContent);
+
+            document.body.appendChild(modal);
+
+            cartBtn.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'button-container';
+
+            const wishlistModal = document.createElement('div');
+            wishlistModal.className = 'modal';
+            wishlistModal.style.display = 'none';
+
+            const wishlistModalContent = document.createElement('div');
+            wishlistModalContent.className = 'modal-content';
+
+            const addToWishlistBtn = document.createElement('button');
+            addToWishlistBtn.textContent = 'Add to wishlist';
+
+            const wCloseBtn = document.createElement('span');
+            wCloseBtn.className = 'close';
+            wCloseBtn.textContent = '×';
+            wCloseBtn.addEventListener('click', function() {
+                wishlistModal.style.display = 'none';
+            });
+
+            const productNameW = document.createElement('h2');
+            productNameW.className = 'nameW';
+            productNameW.textContent = product.flower_name;
+
+            const descriptionW = document.createElement('p');
+            descriptionW.className = 'descriptionW';
+            descriptionW.innerHTML = '<span class="desc-title">Product description: </span> <span class="desc-details">' + product.details + '</span>';
+
+            const productPriceW = document.createElement('p');
+            productPriceW.className = 'PpriceW';
+            productPriceW.textContent = `${product.price} RON`;
+
+            addToWishlistBtn.addEventListener('click', function() {
+                let productToAdd = {
+                    name: productNameW.textContent,
+                    description: descriptionW.textContent,
+                    quantity: quantitySelect.value,
+                    flowerId: product.flower_id,
+                    price: product.price,
+                    photo: product.photo,
+                    cultureId: product.culture_id
+                };
+
+                console.log(productToAdd);
+
+                fetch('http://127.0.0.1:8085/wishlist', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(productToAdd)
+                })
+                .then(response => response.json())
+                .then(data =>  { 
+                    console.log(data);
+                if (data.status === 'success') {
+                    alert('Product successfully added to wishlist');
+                } else if (data.status === 'error') {
+                    alert(data.message);
+                }
+                })
+                .catch(error => console.error('Error:', error));
+
+                wishlistModal.style.display = 'none';
+            });
+
+            wishlistModalContent.appendChild(productNameW);
+            wishlistModalContent.appendChild(descriptionW);
+            wishlistModalContent.appendChild(productPriceW);
+            wishlistModalContent.appendChild(wCloseBtn);
+            wishlistModalContent.appendChild(addToWishlistBtn);
+            wishlistModal.appendChild(wishlistModalContent);
+
+            document.body.appendChild(wishlistModal);
+
+            favBtn.addEventListener('click', function() {
+                wishlistModal.style.display = 'block';
+            });
+
+            buttonContainer.appendChild(favBtn);
+            buttonContainer.appendChild(cartBtn);
+
+            box.appendChild(img);
+            box.appendChild(name);
+            box.appendChild(price);
+            box.appendChild(buttonContainer);
+
+            container.appendChild(box);
+        });
+    } else {
+        console.error('Failed to fetch products');
+    }
+}
+
+window.onload = fetchProducts;
+
     </script>
     
 </body>
