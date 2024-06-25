@@ -177,3 +177,11 @@ main h1 i {
         font-size: 1rem;
     }
 }
+
+body main h1 {
+    animation: fadeIn 2s ease-in-out;
+}
+
+body main p {
+    animation: fadeIn 2s ease-in-out ;
+}
