@@ -100,7 +100,7 @@ module.exports = {
     addFlowerCulture,
     getAllCultures,
     getCulturesByUserId,
-    updateCulture
+    updateCulture,
     getCultureById,
     deleteCulture
 
