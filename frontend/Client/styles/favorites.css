@@ -180,6 +180,15 @@ header .icons a:hover{
     position: relative;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.wishlist-item {
+    animation: fadeIn 0.5s ease-in;
+}
+
 
 button:hover {
     background-color: #9d0f05;
@@ -216,3 +225,4 @@ button:hover {
 
     
 }
+
