@@ -63,7 +63,10 @@
           const messageElement = document.querySelector('#message');
         
           if (!response.ok) {
-            messageElement.textContent = `Error: ${response.status}`;
+            if (response.status === 401) {
+              alert('Incorrect password or user does not exist');
+           } else {
+              alert('An error occurred. Please try again later.');}
             return;
           }
         
