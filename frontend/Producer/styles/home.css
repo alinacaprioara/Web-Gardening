@@ -116,3 +116,42 @@ header .icons a:hover{
     color:#2d6a4f;
     opacity: 0.8;
 }
+
+main h1 i {
+    color: #2d6a4f;
+    margin-right: 10px;
+    font-size: 1.5em;
+}
+
+
+@media (max-width: 768px) {
+    main {
+        padding: 20px;
+    }
+
+    main h1 {
+        font-size: 2em;
+    }
+
+    main p {
+        font-size: 1em;
+    }
+
+    header .icons a {
+        font-size: 2rem;
+        margin-left: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+body main h1 {
+    animation: fadeIn 2s ease-in-out;
+}
+
+body main p {
+    animation: fadeIn 2s ease-in-out ;
+}

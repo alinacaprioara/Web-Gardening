@@ -365,6 +365,21 @@ button:hover {
     background-color: #1e4934;
 }
 
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    animation: fadeIn 0.2s ease-in;
+}
+
+
+.box {
+    animation: fadeIn 1s ease-in;
+}
+
 @media (max-width: 768px) {
     .products .box-container .box {
         width: calc(50% - 1.5rem);
