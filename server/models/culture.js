@@ -75,6 +75,12 @@ class Culture {
         return result.rows[0];
     }
     
+
+    static async updateSetReady(id) {
+        const query = `UPDATE cultures SET ready = true WHERE id = $1`;
+        await db.query(query, [id]);
+        return rows;
+    }
 }
 
 module.exports = Culture;

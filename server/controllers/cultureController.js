@@ -71,6 +71,18 @@ const deleteCulture = async (req, res) => {
     }
 }
 
+const updateCulture = async (req, res) => {
+    const cultureId = req;
+    try {
+        await Culture.updateSetReady(cultureId);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Culture ready for harvest' }));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to update culture' }));
+    }
+}
+
 
 const getCultureById = async (req, res) => {
     const cultureId = req;
@@ -88,6 +100,8 @@ module.exports = {
     addFlowerCulture,
     getAllCultures,
     getCulturesByUserId,
+    updateCulture
     getCultureById,
     deleteCulture
+
 };

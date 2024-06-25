@@ -193,6 +193,19 @@ const routes = {
             }
         cultureController.deleteCulture(cultureId, res);
     },
+    },
+    'PUT': {
+        '/cultures': (req, res) => {
+
+            const url = new URL(req.url, `http://${req.headers.host}`);
+            const cultureId = url.searchParams.get('cultureId');
+            if (!cultureId) {
+                res.statusCode = 400;
+                res.end('Bad Request: Missing cultureId');
+                return;
+            }
+        cultureController.updateCulture(cultureId, res);
+    },
     '/shoppingCart': (req, res) => {
         let body = '';
         req.on('data', chunk => {
