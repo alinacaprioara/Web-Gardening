@@ -25,6 +25,7 @@ body,html {
     display: flex;
     
     background-color: #74c69d;
+    /* opacity: 0.8; */
     background-image: radial-gradient(#2d6a4f 2px, #74c69d 2px);
     background-size: 40px 40px;
     justify-content: center;
@@ -32,29 +33,39 @@ body,html {
 }
 
 .container {
+    animation: fadeIn 2s ease-in;
     height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: white;
     justify-content: center;
     align-items: center;
     text-align: center;
     margin-top: 100px;
     margin: auto;
+    padding:50px;
 }
 
 .title{
+    animation: fadeIn 2s ease-in;
     background-color: white;
-    font-size: 85px;
+    text-align: left;
+    font-size: 5rem;
     font-weight: bold;
     margin-bottom: 20px;
     border-radius: 10px;
     padding: 20px;
+    color: #2d6a4f;
 }
 
 .description {
-    font-size: 24px;
+    animation: fadeIn 2s ease-in;
+    font-size: 1.5rem;
+    text-align: justify;
     color: #555; 
     margin-top: 10px; 
+    line-height: 1.6;
+
 }
 
 .buttons{
@@ -102,8 +113,7 @@ header .navbar a{
 }
 
 header .navbar a:hover{
-    color:#2d6a4f;
-    opacity: 0.8;
+    color:green;
 }
 
 header .icons a{
@@ -113,8 +123,26 @@ header .icons a{
 }
 
 header .icons a:hover{
-    color:#2d6a4f;
-    opacity: 0.8;
+    color:green;
+}
+
+
+main {
+    background-color: white;
+    border: 2px solid #2d6a4f;
+    border-radius: 10px;
+    text-align: center;
+    padding: 50px;
+}
+
+main h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+main p {
+    font-size: 1.2em;
+    color: #666;
 }
 
 main h1 i {
@@ -124,34 +152,28 @@ main h1 i {
 }
 
 
-@media (max-width: 768px) {
-    main {
-        padding: 20px;
-    }
-
-    main h1 {
-        font-size: 2em;
-    }
-
-    main p {
-        font-size: 1em;
-    }
-
-    header .icons a {
-        font-size: 2rem;
-        margin-left: 1rem;
-    }
-}
-
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-body main h1 {
-    animation: fadeIn 2s ease-in-out;
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 4rem;
+    }
+
+    .description {
+        font-size: 1.5rem;
+    }
 }
 
-body main p {
-    animation: fadeIn 2s ease-in-out ;
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
 }
