@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./doc.css">
-    <title>Web Gardening Documentație Academică</title>
+    <title>Web Gardening -  Documentație Academică</title>
 </head>
 <body>
     <article>
@@ -37,7 +37,7 @@
                     <p>Produsul în curs de dezvoltare este o aplicație Web de tip asistent digital pentru cultivarea florilor de primăvară și vânzarea lor.
                       Astfel, utilizatorii de tip producător pot gestiona mai multe culturi de flori concomitent, primind sugestii de la aplicație pentru crearea unui mediu de creștere potrivit pentru culturile proprii.
                       Sugestiile sunt generate în urma analizei unei mulțimi de factori, precum umiditatea solului, temperatura ambientală și un flux de imagini vizând dezvoltarea plantelor monitorizate.
-                      Utilizatorii de tip client care doresc să achiziționeze flori pot alege să fie notificați când acestea devin disponibile, prin intermediul unui sistem de notificări (email/în cadrul aplicației). Publicul țintă vizat pentru aceasta aplicație 
+                      Utilizatorii de tip client care doresc să achiziționeze flori pot alege să fie notificați când acestea devin disponibile, prin intermediul unui sistem de notificări (email). Publicul țintă vizat pentru aceasta aplicație 
                         sunt producătorii de plante cu scopul de vânzare și oamenii care își doresc să cumpere flori de primăvară.</p>
             </section>
             <section>
@@ -63,19 +63,17 @@
                         În momentul autentificării, utilizatorul alege un rol: producător/client.
                         Astfel, când se va loga ulterior, va avea pagini specifice rolului ales.
                         Pentru producător, pagina principală are un meniu în care poate alege să vizualizeze/editeze culturile existente sau să adauge unele noi.
-                        Pagina de adăugare a unei noi culturi cuprinde un formular cu detalii precum: tipul de plantă, parametrii de creștere doriți(temperatura optimă, umiditatea solului, nivelul de luminozitate), și
-                        detalii suplimentare despre mediul de creștere(tipul de sol, dimensiunea vasului). Pagina de vizualizare culturi existente oferă posibilitatea de a vedea sugestii de îmbunătățire a recoltei pentru fiecare cultură, bazate pe analiza datelor primite de la senzori.
+                        Pagina de adăugare a unei noi culturi cuprinde un formular cu detalii precum: tipul de plantă, parametrii de creștere doriți(temperatura optimă, umiditatea solului, nivelul de luminozitate). 
+                        Pagina de vizualizare culturi existente oferă posibilitatea de a vedea sugestii de îmbunătățire a recoltei pentru fiecare cultură, bazate pe analiza datelor primite de la senzori.
                      </p>
                     <p>Un exemplu de flux pentru un producător deja autentificat ar fi următorul: 
                         <ol>
                             <li>Login</li>
                             <li>Vezi culturi existente</li>
                             <li>Vizualizează cultura de narcise</li>
-                            <li>Vizualizează sugestii</li>
-                            <li>Întoarcere în pagina culturii de narcise</li>
-                            <li>Vizualizează detalii despre mediul de creștere</li>
-                            <li>Actualizează detalii despre mediul de creștere: schimbarea tipului de sol</li>
-                            <li>Salvează modificările făcute.</li>
+                            <li>Selectează manage</li>
+                            <li>Alege tipul de senzor</li>
+                            <li>Introduce input și generează recomandare</li>
                             <li>Întoarcere în meniul principal.</li>
                         </ol>
                     </p>
@@ -90,7 +88,7 @@
                             <li>Vezi flori</li>
                             <li>Alege o floare</li>
                             <li>Vizualizează disponibilitate</li>
-                            <li>Setează alertă de notificare</li>
+                            <li>Adaugă în wishlist</li>
                             <li>Întoarcere în meniul principal</li>
                         </ol>
                     </p>
@@ -106,8 +104,7 @@
                     <p>Aplicația va fi integrabilă pe mai multe platforme, adică va fi accesibilă
                         de pe diferite dispozitive. Componentele frontend vor fi 
                         scrise și proiectate în HTML5 și CSS. Pentru partea de backend vom utiliza
-                        PHP, iar pentru bazele de date vom folosi SQLite. În plus, vom folosi GraphQL ca limbaj 
-                        de interogare pentru API-urile noastre.</p>
+                        NodeJS, iar pentru bazele de date vom folosi PostGreSQL. </p>
                 
                 <h3>2.5 Constrângeri de proiectare și implementare</h3>
                     <p>Proiectul trebuie să respecte o serie de constrângeri. 
@@ -115,11 +112,7 @@
                         și ușor de utilizat de către orice utilizator, indiferent de capacitățile 
                         tehnice ale acestuia și de tipul de utilizator (producător/client).
                     </p>
-                    <p>O altă constrângere se referă la securitatea datelor. Pe lângă datele 
-                        personale ale fiecărui utilizator, aplicația va primi și informații 
-                        despre locația de preluare a comenzii, iar aceasta informație trebuie 
-                        să fie criptată și procesată corespunzător pentru a evita orice 
-                        scurgere de date.</p>
+                    <p>O altă constrângere se referă la securitatea datelor.</p>
                 
                 <h3>2.6 Documentația utilizatorului</h3>
 
@@ -142,11 +135,11 @@
                   
                 <h4>Pagina de main</h4>
                 <p>Aceasta este prima pagină cu care interacționează utilizatorul. Din această pagină, poate să creeze cont sau să se autentifice.</p>
-                <img src="pages/main.png" class="login" alt="login page">
+                <img src="../assets/main.png" class="login" alt="login page">
 
                 <h4>Paginile login/register</h4>
                 <p>Pagini pentru creare/logare în contul existent. În momentul creării unui cont, utilizatorul își alege rolul: client/producător.</p>
-                <img src="pages/login.png" class="login" alt="login page">
+                <img src="../assets/login.png" class="login" alt="login page">
                 <img src="pages/register.png" class="login" alt="login page">
 
 
