@@ -63,19 +63,17 @@
                         În momentul autentificării, utilizatorul alege un rol: producător/client.
                         Astfel, când se va loga ulterior, va avea pagini specifice rolului ales.
                         Pentru producător, pagina principală are un meniu în care poate alege să vizualizeze/editeze culturile existente sau să adauge unele noi.
-                        Pagina de adăugare a unei noi culturi cuprinde un formular cu detalii precum: tipul de plantă, parametrii de creștere doriți(temperatura optimă, umiditatea solului, nivelul de luminozitate), și
-                        detalii suplimentare despre mediul de creștere(tipul de sol, dimensiunea vasului). Pagina de vizualizare culturi existente oferă posibilitatea de a vedea sugestii de îmbunătățire a recoltei pentru fiecare cultură, bazate pe analiza datelor primite de la senzori.
+                        Pagina de adăugare a unei noi culturi cuprinde un formular cu detalii precum: tipul de plantă, parametrii de creștere doriți(temperatura optimă, umiditatea solului, nivelul de luminozitate). 
+                        Pagina de vizualizare culturi existente oferă posibilitatea de a vedea sugestii de îmbunătățire a recoltei pentru fiecare cultură, bazate pe analiza datelor primite de la senzori.
                      </p>
                     <p>Un exemplu de flux pentru un producător deja autentificat ar fi următorul: 
                         <ol>
                             <li>Login</li>
                             <li>Vezi culturi existente</li>
                             <li>Vizualizează cultura de narcise</li>
-                            <li>Vizualizează sugestii</li>
-                            <li>Întoarcere în pagina culturii de narcise</li>
-                            <li>Vizualizează detalii despre mediul de creștere</li>
-                            <li>Actualizează detalii despre mediul de creștere: schimbarea tipului de sol</li>
-                            <li>Salvează modificările făcute.</li>
+                            <li>Selectează manage</li>
+                            <li>Alege tipul de senzor</li>
+                            <li>Introduce input și generează recomandare</li>
                             <li>Întoarcere în meniul principal.</li>
                         </ol>
                     </p>
@@ -90,7 +88,7 @@
                             <li>Vezi flori</li>
                             <li>Alege o floare</li>
                             <li>Vizualizează disponibilitate</li>
-                            <li>Setează alertă de notificare</li>
+                            <li>Adaugă în wishlist</li>
                             <li>Întoarcere în meniul principal</li>
                         </ol>
                     </p>
@@ -106,7 +104,7 @@
                     <p>Aplicația va fi integrabilă pe mai multe platforme, adică va fi accesibilă
                         de pe diferite dispozitive. Componentele frontend vor fi 
                         scrise și proiectate în HTML5 și CSS. Pentru partea de backend vom utiliza
-                        PHP, iar pentru bazele de date vom folosi PostGreSQL. </p>
+                        NodeJS, iar pentru bazele de date vom folosi PostGreSQL. </p>
                 
                 <h3>2.5 Constrângeri de proiectare și implementare</h3>
                     <p>Proiectul trebuie să respecte o serie de constrângeri. 
@@ -164,7 +162,7 @@
 
                 <h3>3.2 Interfețe hardware</h3>
                 <p>Pe partea partea utilizatorului, aplicația va rula pe orice browser desktop, cum ar fi Chrome, Firefox, Opera, care acceptă HTML, CSS și Javascript.
-                    Pe partea backend, invocarea unui serviciu/API Web va fi efectuată în manieră asincronă via suita de tehnologii Ajax. Aplicația noastră va utiliza PHP pentru implementare.
+                    Pe partea backend, invocarea unui serviciu/API Web va fi efectuată în manieră asincronă via suita de tehnologii Ajax. Aplicația noastră va utiliza NodeJS pentru implementare.
     </p>
                 
                 <h3>3.3 Interfețe software</h3>
