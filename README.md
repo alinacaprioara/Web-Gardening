@@ -7,19 +7,18 @@
 
 This project is part of the **"Web Technologies"** course.
 
-## Features
+### Features
 
-### Authentication  
-- Users can log in or create an account based on their role (producer or client).  
+- **Authentication**: Users can log in or create an account based on their role (producer or client).  
 
-### Flower Crop Management  
-- **Producers** can:  
+- **Flower Crop Management**
+  Producers can:  
   - Add, edit, and delete flower crops 
   - Monitor image streams to receive growth insights  
   - Use image analysis to determine the optimal harvest time
 
-### Client Orders Management  
-- **Clients** can:  
+- **Client Orders Management**
+  Clients can:  
   - Purchase flowers from producers.  
   - Add flowers to wishlist if the desired plant has not yet been harvested.  
 
